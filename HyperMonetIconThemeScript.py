@@ -350,21 +350,6 @@ class Cleaner:
                     shutil.rmtree(str(file))
                     print(f"    已删除目录: {file}")
 
-# 添加线程安全的计数器类
-class AtomicCounter:
-    def __init__(self):
-        self._value = 0
-        self._lock = threading.Lock()
-    
-    def increment(self):
-        with self._lock:
-            self._value += 1
-            return self._value
-    
-    @property
-    def value(self):
-        return self._value
-
 
 def main():
     # 清理临时文件
