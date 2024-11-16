@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<theme>
+<version><![CDATA[1.0.0]]></version>
+<uiVersion>10</uiVersion>
+<author><![CDATA[酷安@CapybaraSaid]]></author>
+<designer><![CDATA[酷安@CapybaraSaid]]></designer>
+<title><![CDATA[HyperMonetIconTheme]]></title>
+<description><![CDATA[HyperMonetIconTheme
+基于Lawnicon图标库的HyperOS莫奈图标主题
+使用HyperMonet脚本生成]]></description>
+<authors>
+<author locale="zh_CN"><![CDATA[酷安@CapybaraSaid]]></author>
+</authors>
+<designers>
+<designer locale="zh_CN"><![CDATA[酷安@CapybaraSaid]]></designer>
+</designers>
+<titles>
+<title locale="zh_CN"><![CDATA[HyperMonetIconTheme]]></title>
+</titles>
+<descriptions>
+<description locale="zh_CN"><![CDATA[HyperMonetIconTheme
+基于Lawnicon图标库的HyperOS莫奈图标主题
+使用HyperMonet脚本生成]]></description>
+</descriptions>
+</theme>
