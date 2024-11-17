@@ -3,7 +3,7 @@
 ## 🤔 这是什么
 由于HyperOS缺乏完整的Material You Monet图标支持，还限制了替换桌面图标的途径，无法使用第三方图标包，使其不能优雅的体验Monet单色图标
 
-[Lawnicons](https://github.com/LawnchairLauncher/lawnicons) 是 Lawnchair 启动器团队开发的一个支持Monet动态配色特性的图标包，国内App支持度较好，图标更新频繁
+[Lawnicons](https://github.com/LawnchairLauncher/lawnicons) 是 Lawnchair 启动器团队开发的一个支持 Monet 动态配色特性的图标包，国内App支持度较好，图标更新频繁
 
 本项目通过编写Python脚本将Lawnicons仓库中的svg图标处理后移植到适用于HyperOS的Magisk模块中，尝试实现类似的Monet图标效果，且可自定义颜色。
 
@@ -108,7 +108,7 @@ pip install cairosvg pillow
 
 &nbsp;&nbsp;&nbsp;&nbsp;通过取色器选取图标线条 FG_COLOR，选取图标背景颜色 BG_COLOR，例如，下图中获取的是暗色模式下 Lawnicons 图标的前景色。
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/getcolor1.png" alt="" width="300">
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/lawnicons_color.png" alt="" width="300">
 
 
 
@@ -116,11 +116,11 @@ pip install cairosvg pillow
 
 如欲创建深色模式下使用的图标，可在页面右侧下方的 Light Scheme 中选取 (Primary 或 Secondary) Container 即 P-90 或 S-90 作为 FG_COLOR，On (Primary 或 Secondary) Container 即 P-10 或 S-10 作为 BG_COLOR。
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/mdy_scheme_dark.png" alt="" width="400">
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/materialyou_scheme_dark.png" alt="" width="400">
 
 如欲创建浅色模式下使用的图标，可在页面右侧下方的 Dark Scheme 中选取 (Primary 或 Secondary) Container 即 P-30 或 S-30 作为 FG_COLOR，On (Primary 或 Secondary) Container 即 P-90 或 S-90 作为 BG_COLOR。
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/mdy_scheme_light.png" alt="" width="400">
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/materialyou_scheme_light.png" alt="" width="400">
 
 也可根据个人喜好搭配色彩、深浅和对比度
 
@@ -128,7 +128,7 @@ pip install cairosvg pillow
 
 &nbsp;&nbsp;&nbsp;&nbsp;修改22-23行的 FG_COLOR 和 BG_COLOR，或使用下方预设的几种色彩。按需修改线程数等其他参数并保存。建议阅读相关注释
 
-&nbsp;&nbsp;&nbsp;&nbsp;![alt text](./images/color.png)
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/color.png" alt="" width="200">
 
 &nbsp;&nbsp;&nbsp;&nbsp;其中 544-547行 main方法中打包mtz主题包的调用已被注释，默认不导出mtz，可自行启用。
 
@@ -153,16 +153,24 @@ python HyperMonetIconThemeScript.py
 
 兼容性取决于icons模板的transform_config、图标大小与缩放、不同系统对图标的裁切等
 
-已在 HyperOS2 + Kitsune Mask 上测试，目前一切正常
+已在 Xiaomi 13: HyperOS 2.0.17 + Kitsune Mask 27001 上测试，目前一切正常
+
+理论上 HyperOS1 也能使用。MIUI14可能存在动画圆角遮罩问题
 
 其他系统版本、其他分辨率机型待测试补充
+
+<br/>
+
+## 📝 Todos
+
+桌面快捷方式，例如一键锁屏等图标尚未处理
 
 
 <br/>
 
 ## 🙋‍♀️ 提交图标
 
-请向上游Lawnicons提交svg图标
+请向上游 Lawnicons 提交 svg 图标
 
 图标规则与提交向导 https://github.com/LawnchairLauncher/lawnicons/blob/develop/CONTRIBUTING.md
 
