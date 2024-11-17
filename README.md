@@ -7,13 +7,22 @@
 
 本项目通过编写Python脚本将Lawnicons仓库中的svg图标处理后移植到适用于HyperOS的Magisk模块中，尝试实现类似的Monet图标效果，且可自定义颜色。
 
+尽管它没法真正实现端侧莫奈动态配色，但看起来效果确实优雅，和原始的莫奈图标难分秋毫🫡。而且实现思路不太复杂
 > [!NOTE] 
 > 需要root
 
 <br/>
 
 ## 🥳 使用效果
-Xiaomi13 HyperOS2 Android15
+Xiaomi13 | HyperOS2 | Android15 | Kitsune Mask 27001
+
+<img src="./images/d39348bc8ee24233615761b853a9b1a.jpg" alt="" width="400">
+
+<br/>
+<img src="./images/48fa62b6f0e28f4fb758176fe868fef.jpg" alt="" width="400">
+
+<br/>
+<img src="./images/6a62b89ff05ca2ce82e03d66f6254d1.jpg" alt="" width="400">
 
 <br/>
 
@@ -58,7 +67,7 @@ Lawnicons 还包含了图标-包名的映射文件，这为生成以包名命名
 <br/>
 
 ## 📖 如何使用
-> 如果你不想动手，或不具备条件，亦或是先想看看效果，右侧 Release 中包含了上述样例截图中几种配色方案的Magisk模块。
+> 如果你不想动手，或不具备条件，亦或是先想看看效果，右侧 Release 中包含了上述效果预览中几种配色方案的Magisk模块。
 
 ### 前提条件
 - 确保你的 HyperOS 已经 root
@@ -174,3 +183,11 @@ python HyperMonetIconThemeScript.py
 
 图标规则与提交向导 https://github.com/LawnchairLauncher/lawnicons/blob/develop/CONTRIBUTING.md
 
+
+
+## 🥰 链接和资源
+Github：https://github.com/VincentAzz/HyperMonetIconTheme
+
+金山文档：https://kdocs.cn/l/clkGhVnsW7p1
+
+123云盘：
