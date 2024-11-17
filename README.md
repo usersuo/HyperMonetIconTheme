@@ -192,8 +192,6 @@ python HyperMonetIconThemeScript.py
 
 ## 🥰 链接和资源
 
-Github：https://github.com/VincentAzz/HyperMonetIconTheme
-
 金山文档：https://kdocs.cn/l/clkGhVnsW7p1
 
 123云盘：https://www.123684.com/s/ILmbVv-AtvTH
