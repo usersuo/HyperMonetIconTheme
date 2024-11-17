@@ -7,7 +7,7 @@
 
 本项目通过编写Python脚本将Lawnicons仓库中的svg图标处理后移植到适用于HyperOS的Magisk模块中，尝试实现类似的Monet图标效果，且可自定义颜色。
 
-尽管它没法真正实现端侧莫奈动态配色，但看起来效果确实优雅，和原始的莫奈图标难分秋毫🫡。而且实现思路不太复杂
+尽管它没法真正实现端侧莫奈动态配色，但看起来效果确实优雅，和原始的莫奈图标难分秋毫🙂。而且实现思路也不太复杂
 > [!NOTE] 
 > 需要root
 
@@ -49,7 +49,7 @@ icons/
 
 Lawnicons 包含了大量用于生成动态配色图标的svg矢量图标，而svg文件可以通过cairosvg和pil库转换为png并着色
 
-Lawnicons 还包含了图标-包名的映射文件，这为生成以包名命名的目录提供了可能
+Lawnicons 还包含了图标-包名的映射文件appfilter.xml，这为生成以包名命名的目录提供了可能
 
 但由于 Lawnicons 使用"包名/activity"而非仅包名来映射图标，一个包名下可能列举了多个activity，导致同一个包名或图标可能出现在多个映射条目中。需确保每个包名只出现一次，在对原始映射进行去重简化后，可以方便的进行映射
 
@@ -67,7 +67,9 @@ Lawnicons 还包含了图标-包名的映射文件，这为生成以包名命名
 <br/>
 
 ## 📖 如何使用
-> 如果你不想动手，或不具备条件，亦或是先想看看效果，右侧 Release 中包含了上述效果预览中几种配色方案的Magisk模块。
+> 如果你不想动手，或不具备条件，亦或是先想看看效果，右侧 Release 和底部的123云盘链接均包含了上述效果预览中几种配色方案的Magisk模块。
+>
+> 123云盘中还包含了以下需要安装的依赖、本项目文件，以及最新的Lawnicons项目文件，方便下载慢的同学使用。
 
 ### 前提条件
 - 确保你的 HyperOS 已经 root
@@ -94,7 +96,7 @@ pip install cairosvg pillow
 ### 开始使用
 #### 1. 克隆或下载本项目文件到本地，并解压
 &nbsp;&nbsp;&nbsp;&nbsp;如何下载？找到页面上方的绿色Code按钮，Download ZIP
-#### 2. 克隆或下载 [Lawnicons develop 分支](https://github.com/LawnchairLauncher/lawnicons) 项目文件到本地，并解压到 lawnicons-develop
+#### 2. 克隆或下载 [Lawnicons develop 分支](https://github.com/LawnchairLauncher/lawnicons) 项目文件到本地，并解压到 lawnicons-develop。(下载项目文件，而不是 Release 中的 apk 或 Source code)
 > 如需应用 Lawnicons 图标更新，需重新克隆或下载完整的Lawnicons develop 分支文件并再次运行
 > 
 > 可查看 Lawnicons 图标 [提交记录](https://github.com/LawnchairLauncher/lawnicons/commits/develop/) 跟踪更新
@@ -113,7 +115,7 @@ pip install cairosvg pillow
 &nbsp;&nbsp;&nbsp;&nbsp;有多种方式获取颜色，但似乎都不太优雅
 
 
-- &nbsp;&nbsp;&nbsp;&nbsp;方式1：安装 Lawnicons，直接截图取色。以获得与 Lawnicons 完全相同的效果
+- &nbsp;&nbsp;&nbsp;&nbsp;方式1：安装任意版本的 [Lawnicons](https://github.com/LawnchairLauncher/lawnicons/releases/download/v2.12.0/Lawnicons.2.12.0.apk)，直接截图取色。以获得与 Lawnicons 完全相同的效果
 
 &nbsp;&nbsp;&nbsp;&nbsp;通过取色器选取图标线条 FG_COLOR，选取图标背景颜色 BG_COLOR，例如，下图中获取的是暗色模式下 Lawnicons 图标的前景色。
 
@@ -135,7 +137,7 @@ pip install cairosvg pillow
 
 #### 5. 编辑HyperMonetIconThemeScript.py
 
-&nbsp;&nbsp;&nbsp;&nbsp;修改22-23行的 FG_COLOR 和 BG_COLOR，或使用下方预设的几种色彩。按需修改线程数等其他参数并保存。建议阅读相关注释
+&nbsp;&nbsp;&nbsp;&nbsp;修改22-23行的 FG_COLOR 和 BG_COLOR，或使用下方预设的几种色彩。按需修改线程数、图标大小等其他参数并保存。建议阅读相关注释
 
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/color.png" alt="" width="200">
 
