@@ -58,6 +58,7 @@ Lawnicons 还包含了图标-包名的映射文件，这为生成以包名命名
 <br/>
 
 ## 📖 如何使用
+> 如果你不想动手，或不具备条件，亦或是先想看看效果，右侧 Release 中包含了上述样例截图中几种配色方案的Magisk模块。
 
 ### 前提条件
 - 确保你的 HyperOS 已经 root
@@ -101,7 +102,6 @@ pip install cairosvg pillow
 &nbsp;&nbsp;&nbsp;&nbsp;通常在亮色模式下，前景色是深色，背景色是浅色；在暗色模式下，前景色是浅色，背景色是深色
 
 &nbsp;&nbsp;&nbsp;&nbsp;有多种方式获取颜色，但似乎都不太优雅
-
 
 
 - &nbsp;&nbsp;&nbsp;&nbsp;方式1：安装 Lawnicons，直接截图取色。以获得与 Lawnicons 完全相同的效果
