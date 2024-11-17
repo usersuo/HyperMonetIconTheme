@@ -23,6 +23,9 @@ FG_COLOR = "#d1e2fc"
 BG_COLOR = "#1c232b"
 
 # 浅色主题 蓝色
+FG_COLOR = "#011c31"
+BG_COLOR = "#e8ecf7"
+
 
 # 深色主题 红色
 

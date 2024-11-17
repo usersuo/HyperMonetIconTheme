@@ -1,18 +1,18 @@
 # HyperMonetIconTheme
 
 ## 🤔 这是什么
-由于HyperOS缺乏完整的Material You Monet取色支持，还限制了替换桌面图标的途径，无法使用第三方图标包，使其不能优雅的体验Monet单色图标
+由于HyperOS缺乏完整的Material You Monet图标支持，还限制了替换桌面图标的途径，无法使用第三方图标包，使其不能优雅的体验Monet单色图标
 
-Lawnicons是lawnchair团队开发的一个支持Monet动态配色特性的图标包，国内App支持度较好，图标更新频繁
+[Lawnicons](https://github.com/LawnchairLauncher/lawnicons) 是 Lawnchair 启动器团队开发的一个支持Monet动态配色特性的图标包，国内App支持度较好，图标更新频繁
 
-本项目通过编写Python脚本将Lawnicons仓库中的svg图标处理后移植到适用于HyperOS的Magisk模块中，尝试实现类似的Monet图标效果
+本项目通过编写Python脚本将Lawnicons仓库中的svg图标处理后移植到适用于HyperOS的Magisk模块中，尝试实现类似的Monet图标效果，且可自定义颜色。
 
 > [!NOTE] 
 > 需要root
 
 <br/>
 
-## 🥰 使用效果
+## 🥳 使用效果
 Xiaomi13 HyperOS2 Android15
 
 <br/>
@@ -36,23 +36,23 @@ icons/
             └─ ...
 
 ```
-其中drawable-xxhdpi中存放以对应应用包名命名的目录，每个应用的静态分层图标由背景0.png，图标本体1.png组成
+其中drawable-xxhdpi中存放以对应应用包名命名的目录，每个应用的静态分层图标以png图片形式存在，由背景0.png，图标本体1.png组成，不支持svg和drawable xml
 
-Lawnicons包含了大量用于生成动态配色图标的svg图标，而svg文件可以通过cairosvg和pil库转换为png并着色
+Lawnicons 包含了大量用于生成动态配色图标的svg矢量图标，而svg文件可以通过cairosvg和pil库转换为png并着色
 
-Lawnicons还包含了图标-包名的映射文件，这为生成以包名命名的目录提供了可能。
+Lawnicons 还包含了图标-包名的映射文件，这为生成以包名命名的目录提供了可能
 
-但由于lawnicons使用"包名/activity"而非仅包名来映射图标，一个包名下可能列举了多个activity，导致同一个包名或图标可能出现在多个映射条目中。需确保每个包名只出现一次，在对原始映射进行去重简化后，可以方便的进行映射。
+但由于 Lawnicons 使用"包名/activity"而非仅包名来映射图标，一个包名下可能列举了多个activity，导致同一个包名或图标可能出现在多个映射条目中。需确保每个包名只出现一次，在对原始映射进行去重简化后，可以方便的进行映射
 
 综上，脚本的工作流程大致如下：
 1. 预先设定前景色和背景色
-2. 去重Lawnicon的映射文件
-3. 按背景色创建画布0.png作为背景复用
-4. 将每一个svg图标转换成透明背景的png，着前景色，调整大小与缩放，生成1.png
-5. 映射到包名并创建目录，放入对应png
-6. 打包icons文件
-7. 合入Magisk模块模板，打包输出
-8. 合入mtz主题模板，打包输出
+2. 去重 Lawnicons 的映射文件
+3. 按背景色创建画布 0.png 作为背景复用
+4. 将每一个 svg 图标转换成透明背景的 png，着前景色，调整大小与缩放，生成 1.png
+5. 映射到包名并创建目录，放入对应 png
+6. 打包 icons 文件
+7. 合入 Magisk 模块模板，打包输出
+8. 合入 mtz 主题模板，打包输出（可选）
 
 
 <br/>
@@ -63,18 +63,19 @@ Lawnicons还包含了图标-包名的映射文件，这为生成以包名命名�
 - 确保你的 HyperOS 已经 root
 - 你有一台 Windows 电脑
 - 一个编辑器，例如 VSCode。当然用记事本也没关系
+- 取色工具 (可选)，例如PowerToys、Photoshop、一个木函等
 
 ### 环境依赖
 
 #### 1. Python 环境
 - 安装 [Python 3.x](https://www.python.org/downloads/)
-- 安装时务必记住勾选 "Add Python to Path"，将Python添加到环境变量
+- 安装时务必记住勾选 "Add Python to Path"，将 Python 添加到环境变量
 
 #### 2. Cairo 图形库
 - 下载并安装包含了 Cairo 图形库的 [GTK For Windows Runtime](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases/download/2022-01-04/gtk3-runtime-3.24.31-2022-01-04-ts-win64.exe)
 
 #### 3. Python 依赖
-- 安装 cairosvg 和 pillow，在终端中执行：
+- 安装 cairosvg 和 pillow。在终端中执行：
 ```bash
 pip install cairosvg pillow
 ```
@@ -83,27 +84,55 @@ pip install cairosvg pillow
 ### 开始使用
 #### 1. 克隆或下载本项目文件到本地，并解压
 &nbsp;&nbsp;&nbsp;&nbsp;如何下载？找到页面上方的绿色Code按钮，Download ZIP
-#### 2. 克隆或下载Lawnicons项目文件到本地，并解压到lawnicons-develop
-> 如需应用Lawnicons图标更新，需重新克隆或下载完整的Lawnicons项目文件并再次运行
+#### 2. 克隆或下载 [Lawnicons develop 分支](https://github.com/LawnchairLauncher/lawnicons) 项目文件到本地，并解压到 lawnicons-develop
+> 如需应用 Lawnicons 图标更新，需重新克隆或下载完整的Lawnicons develop 分支文件并再次运行
 > 
-> 可关注Lawnicons图标提交记录
-#### 3. 将lawnicon-develop目录置于本项目目录下，确保lawnicon-develop下不存在更进一步的嵌套目录
+> 可查看 Lawnicons 图标 [提交记录](https://github.com/LawnchairLauncher/lawnicons/commits/develop/) 跟踪更新
+#### 3. 将 lawnicons-develop 目录置于本项目目录下，确保 lawnicons-develop 下不存在更进一步的嵌套目录
 &nbsp;&nbsp;&nbsp;&nbsp;应当看起来如下
 
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/dir.png" alt="" width="400">
 
 
-#### 4. 获取当前系统的前景色和背景色
-有多种方式获取颜色。
+#### 4. 基于壁纸获取前景色和背景色
+
+&nbsp;&nbsp;&nbsp;&nbsp;Monet 图标分为前景色和背景色。前景色 FG_COLOR 用作图标线条颜色，背景色 BG_COLOR 用作图标背景底色
+
+&nbsp;&nbsp;&nbsp;&nbsp;通常在亮色模式下，前景色是深色，背景色是浅色；在暗色模式下，前景色是浅色，背景色是深色
+
+&nbsp;&nbsp;&nbsp;&nbsp;有多种方式获取颜色，但似乎都不太优雅
+
+
+
+- &nbsp;&nbsp;&nbsp;&nbsp;方式1：安装 Lawnicons，直接截图取色。以获得与 Lawnicons 完全相同的效果
+
+&nbsp;&nbsp;&nbsp;&nbsp;通过取色器选取图标线条 FG_COLOR，选取图标背景颜色 BG_COLOR，例如，下图中获取的是暗色模式下 Lawnicons 图标的前景色。
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/getcolor1.png" alt="" width="300">
+
+
+
+- &nbsp;&nbsp;&nbsp;&nbsp;方式2：将壁纸上传到 [Material Theme Builder](https://material-foundation.github.io/material-theme-builder/)，以获得完整的 Material You 配色方案 
+
+如欲创建深色模式下使用的图标，可在页面右侧下方的 Light Scheme 中选取 (Primary 或 Secondary) Container 即 P-90 或 S-90 作为 FG_COLOR，On (Primary 或 Secondary) Container 即 P-10 或 S-10 作为 BG_COLOR。
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/mdy_scheme_dark.png" alt="" width="400">
+
+如欲创建浅色模式下使用的图标，可在页面右侧下方的 Dark Scheme 中选取 (Primary 或 Secondary) Container 即 P-30 或 S-30 作为 FG_COLOR，On (Primary 或 Secondary) Container 即 P-90 或 S-90 作为 BG_COLOR。
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/mdy_scheme_light.png" alt="" width="400">
+
+也可根据个人喜好搭配色彩、深浅和对比度
+
 #### 5. 编辑HyperMonetIconThemeScript.py
 
-&nbsp;&nbsp;&nbsp;&nbsp;修改22-23行的FG_COLOR和BG_COLOR，并按需修改其他参数并保存。建议阅读相关注释
+&nbsp;&nbsp;&nbsp;&nbsp;修改22-23行的 FG_COLOR 和 BG_COLOR，或使用下方预设的几种色彩。按需修改线程数等其他参数并保存。建议阅读相关注释
 
 &nbsp;&nbsp;&nbsp;&nbsp;![alt text](./images/color.png)
 
-&nbsp;&nbsp;&nbsp;&nbsp;其中 544-547行 main方法中打包mtz主题包的调用已被注释，默认不导出mtz。
+&nbsp;&nbsp;&nbsp;&nbsp;其中 544-547行 main方法中打包mtz主题包的调用已被注释，默认不导出mtz，可自行启用。
 
-&nbsp;&nbsp;&nbsp;&nbsp;由于mtz存在兼容性问题，不再建议使用mtz主题包。务必优先使用Magisk模块
+&nbsp;&nbsp;&nbsp;&nbsp;由于mtz存在动画和圆角问题，且无高级材质，不再建议使用mtz主题包。务必优先使用Magisk模块
 
 #### 6. 在当前目录下运行 HyperMonetIconThemeScript.py
 
@@ -111,11 +140,23 @@ pip install cairosvg pillow
 ```bash
 python HyperMonetIconThemeScript.py
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;由于需要处理大量图标，运行耗时取决于CPU性能，大约需要3-5分钟
+&nbsp;&nbsp;&nbsp;&nbsp;由于需要处理大量图标，运行耗时取决于CPU性能，大约需要5分钟
 
 #### 7.如果一切正常，运行结束后 Magisk 模块和 mtz 主题包（如有）将输出至当前目录下
 
 #### 8.拷贝模块至手机，刷入并重启即可应用。
+
+
+<br/>
+
+## ⚗️ 兼容性
+
+兼容性取决于icons模板的transform_config、图标大小与缩放、不同系统对图标的裁切等
+
+已在 HyperOS2 + Kitsune Mask 上测试，目前一切正常
+
+其他系统版本、其他分辨率机型待测试补充
+
 
 <br/>
 
