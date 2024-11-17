@@ -1,5 +1,8 @@
 # HyperMonetIconTheme
 
+[![Hits](https://hits.sh/github.com/VincentAzz/HyperMonetIconTheme-visited.svg?label=%E8%AE%BF%E9%97%AE%E8%AE%A1%E6%95%B0)](https://hits.sh/github.com/VincentAzz/HyperMonetIconTheme-visited/)
+
+
 ## 🤔 这是什么
 由于HyperOS缺乏完整的Material You Monet图标支持，还限制了替换桌面图标的途径，无法使用第三方图标包，使其不能优雅的体验Monet单色图标
 
@@ -185,11 +188,12 @@ python HyperMonetIconThemeScript.py
 
 图标规则与提交向导 https://github.com/LawnchairLauncher/lawnicons/blob/develop/CONTRIBUTING.md
 
-
+<br/>
 
 ## 🥰 链接和资源
+
 Github：https://github.com/VincentAzz/HyperMonetIconTheme
 
 金山文档：https://kdocs.cn/l/clkGhVnsW7p1
 
-123云盘：
+123云盘：https://www.123684.com/s/ILmbVv-AtvTH
