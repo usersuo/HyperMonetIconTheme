@@ -24,7 +24,7 @@ icons包结构如下：
 
 ```
 icons/
-  ├─ trans.xml
+  ├─ transform_config.xml
   └─ res/
       └─ drawable-xxhdpi/
             ├─ com.tencent.mm/
@@ -37,10 +37,6 @@ icons/
 
 ```
 其中drawable-xxhdpi中存放以对应应用包名命名的目录，每个应用的静态分层图标由背景0.png，图标本体1.png组成
-
-<!-- HyperOS图标和背景最大为432x432，且系统会对图标本体四周进行33.3%的裁切
-按66.6%缩放时，可预留裁切空间，此时图标本体大小为432*432*66.6% = 288*288，铺满背景画布，图标过大
-按40%缩放时，最终图标本体大小为432x432x40% = 172x172，效果最佳，不至于铺满背景画布 -->
 
 Lawnicons包含了大量用于生成动态配色图标的svg图标，而svg文件可以通过cairosvg和pil库转换为png并着色
 
@@ -89,8 +85,8 @@ pip install cairosvg pillow
 &nbsp;&nbsp;&nbsp;&nbsp;如何下载？找到页面上方的绿色Code按钮，Download ZIP
 #### 2. 克隆或下载Lawnicons项目文件到本地，并解压到lawnicons-develop
 > 如需应用Lawnicons图标更新，需重新克隆或下载完整的Lawnicons项目文件并再次运行
-
-> 可关注Lawnicons提交记录
+> 
+> 可关注Lawnicons图标提交记录
 #### 3. 将lawnicon-develop目录置于本项目目录下，确保lawnicon-develop下不存在更进一步的嵌套目录
 &nbsp;&nbsp;&nbsp;&nbsp;应当看起来如下
 
@@ -98,7 +94,7 @@ pip install cairosvg pillow
 
 
 #### 4. 获取当前系统的前景色和背景色
-有多重方式获取颜色。
+有多种方式获取颜色。
 #### 5. 编辑HyperMonetIconThemeScript.py
 
 &nbsp;&nbsp;&nbsp;&nbsp;修改22-23行的FG_COLOR和BG_COLOR，并按需修改其他参数并保存。建议阅读相关注释
@@ -121,9 +117,6 @@ python HyperMonetIconThemeScript.py
 
 #### 8.拷贝模块至手机，刷入并重启即可应用。
 
-
-
-
 <br/>
 
 ## 🙋‍♀️ 提交图标
@@ -131,3 +124,4 @@ python HyperMonetIconThemeScript.py
 请向上游Lawnicons提交svg图标
 
 图标规则与提交向导 https://github.com/LawnchairLauncher/lawnicons/blob/develop/CONTRIBUTING.md
+
