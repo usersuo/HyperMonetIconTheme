@@ -23,15 +23,26 @@ FG_COLOR = "#d1e2fc"
 BG_COLOR = "#1c232b"
 
 # 浅色主题 蓝色
-FG_COLOR = "#011c31"
-BG_COLOR = "#e8ecf7"
+# FG_COLOR = "#011c31"
+# BG_COLOR = "#e8ecf7"
 
 
 # 深色主题 红色
+# FG_COLOR = "#fcdbcf"
+# BG_COLOR = "#2d2017"
 
 # 浅色主题 红色
+# FG_COLOR = "#331300"
+# BG_COLOR = "#f5eae4"
 
 
+# 深色主题 绿色
+# FG_COLOR = "#c7efac"
+# BG_COLOR = "#1e241a"
+
+# 浅色主题 绿色
+# FG_COLOR = "#071e02"
+# BG_COLOR = "#eaeee0"
 
 
 # 图标大小和缩放比例
@@ -50,8 +61,10 @@ MAX_WORKERS = None
 current_dir = Path.cwd()
 
 # lawnicons的原始appfilter映射文件
-# original_appfilter = current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
-original_appfilter = current_dir / "appfilter.xml"
+# original_appfilter = current_dir / "appfilter.xml"
+original_appfilter = (
+    current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
+)
 
 # 处理后的icon包名映射文件
 # lawnicons的appfilter使用"包名/activity"而非包名来进一步细分item，一个包名可能对应多个item
@@ -59,8 +72,9 @@ original_appfilter = current_dir / "appfilter.xml"
 icon_mapper = current_dir / "icon_mapper.xml"
 
 # lawnicons的原始svgs目录
-# svg_dir = current_dir / "lawnicons-develop" / "svgs"
-svg_dir = current_dir / "svgs"
+# svg_dir = current_dir / "svgs"
+svg_dir = current_dir / "lawnicons-develop" / "svgs"
+
 
 # 图标临时输出目录
 output_dir = current_dir / "output"
@@ -72,10 +86,10 @@ magisk_template_dir = current_dir / "magisk_template_HyperOS"
 
 # 工件输出命名格式
 target_mtz_pattern = str(
-    current_dir / "mtz_theme_Lawnicon_HyperMonetTheme_{timestamp}.mtz"
+    current_dir / "mtz_theme_Lawnicons_HyperMonetTheme_{timestamp}.mtz"
 )
 target_magisk_pattern = str(
-    current_dir / "magisk_module_Lawnicon_HyperMonetTheme_{timestamp}.zip"
+    current_dir / "magisk_module_Lawnicons_HyperMonetTheme_{timestamp}.zip"
 )
 
 # 运行次数反馈
