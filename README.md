@@ -140,11 +140,11 @@ pip install cairosvg pillow
 
 #### 5. 编辑HyperMonetIconThemeScript.py
 
-&nbsp;&nbsp;&nbsp;&nbsp;修改22-23行的 FG_COLOR 和 BG_COLOR，或使用下方预设的几种色彩。按需修改线程数、图标大小等其他参数并保存。建议阅读相关注释
+&nbsp;&nbsp;&nbsp;&nbsp;修改35-36行的 FG_COLOR 和 BG_COLOR，或使用下方预设的几种色彩。按需修改线程数、图标大小等其他参数并保存。建议阅读相关注释
 
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/color.png" alt="" width="200">
 
-&nbsp;&nbsp;&nbsp;&nbsp;其中 559-562行 main方法中打包mtz主题包的调用已被注释，默认不导出mtz，可自行启用。
+&nbsp;&nbsp;&nbsp;&nbsp;其中 572-575行 main方法中打包mtz主题包的调用已被注释，默认不导出mtz，可自行启用。
 
 &nbsp;&nbsp;&nbsp;&nbsp;由于mtz存在动画和圆角问题，且无高级材质，不再建议使用mtz主题包。务必优先使用Magisk模块
 
@@ -197,3 +197,5 @@ python HyperMonetIconThemeScript.py
 金山文档：https://kdocs.cn/l/clkGhVnsW7p1
 
 123云盘：https://www.123684.com/s/ILmbVv-AtvTH
+
+酷安：@CapybaraSaid/[HyperMonetIconTheme，另一种在HyperOS上使用莫奈图标的方法](https://www.coolapk.com/feed/60736518?shareKey=NTFjMTM5YjFjMzY1NjczYWE2N2M~&shareUid=1072863&shareFrom=com.coolapk.market_14.6.0-beta3)

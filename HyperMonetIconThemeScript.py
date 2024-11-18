@@ -1,3 +1,16 @@
+# Copyright [2024] @VincentAzz
+#
+# 根据 Apache License Version 2.0（以下简称"许可证"）授权
+# 除非遵守本许可，否则您不能使用这个文件
+# 使用这个文件时，请标明其来源
+#
+# 您可以从下列网址获得许可证副本：
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# 除非适用法律要求或书面同意，根据许可证分发是基于"按原样"分发的，
+# 不附带任何明示或暗示的担保或条件。
+# 详见根据许可证许可下，特定语言的管辖权限和限制。
+
 import os
 import re
 import shutil
@@ -16,7 +29,7 @@ from cairosvg import svg2png
 from PIL import Image, ImageColor
 
 # Material You Monet 配色, FG_COLOR前景色，为图标本体线条颜色；BG_COLOR背景色，为图标背景画布底色
-# 通常 浅色模式下，FG_COLOR为深色，BG_COLOR为浅色；深色模式下，FG_COLOR为浅色，BG_COLOR为深色
+# 通常浅色模式下，FG_COLOR为深色，BG_COLOR为浅色；深色模式下，FG_COLOR为浅色，BG_COLOR为深色
 
 # 深色主题 蓝色
 FG_COLOR = "#d1e2fc"
