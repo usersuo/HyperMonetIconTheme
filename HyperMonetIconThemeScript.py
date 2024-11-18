@@ -72,7 +72,7 @@ MAX_WORKERS = None
 current_dir = Path.cwd()
 
 # lawnicons的原始appfilter映射文件
-# original_appfilter = current_dir / "appfilter.xml"
+# original_appfilter = current_dir / "test" / "appfilter.xml" #少量图标，测试用，减少生成时间
 original_appfilter = (
     current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
 )
@@ -83,7 +83,7 @@ original_appfilter = (
 icon_mapper = current_dir / "icon_mapper.xml"
 
 # lawnicons的原始svgs目录
-# svg_dir = current_dir / "svgs"
+# svg_dir = current_dir / "test" / "svgs" #少量图标，测试用，减少生成时间
 svg_dir = current_dir / "lawnicons-develop" / "svgs"
 
 
