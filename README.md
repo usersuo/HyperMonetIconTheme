@@ -19,13 +19,13 @@
 ## 🥳 使用效果
 Xiaomi13 | HyperOS2 | Android15 | Kitsune Mask 27001
 
-<img src="./images/d39348bc8ee24233615761b853a9b1a.jpg" alt="" width="400">
+<img src="./images/d39348bc8ee24233615761b853a9b1a.jpg" alt="蓝色" width="400">
 
 <br/>
-<img src="./images/48fa62b6f0e28f4fb758176fe868fef.jpg" alt="" width="400">
+<img src="./images/48fa62b6f0e28f4fb758176fe868fef.jpg" alt="红色" width="400">
 
 <br/>
-<img src="./images/6a62b89ff05ca2ce82e03d66f6254d1.jpg" alt="" width="400">
+<img src="./images/6a62b89ff05ca2ce82e03d66f6254d1.jpg" alt="绿色" width="400">
 
 <br/>
 
