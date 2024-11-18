@@ -144,7 +144,7 @@ pip install cairosvg pillow
 
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/color.png" alt="" width="200">
 
-&nbsp;&nbsp;&nbsp;&nbsp;其中 544-547行 main方法中打包mtz主题包的调用已被注释，默认不导出mtz，可自行启用。
+&nbsp;&nbsp;&nbsp;&nbsp;其中 559-562行 main方法中打包mtz主题包的调用已被注释，默认不导出mtz，可自行启用。
 
 &nbsp;&nbsp;&nbsp;&nbsp;由于mtz存在动画和圆角问题，且无高级材质，不再建议使用mtz主题包。务必优先使用Magisk模块
 
