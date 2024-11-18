@@ -156,6 +156,8 @@ python HyperMonetIconThemeScript.py
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;由于需要处理大量图标，运行耗时取决于CPU性能，大约需要5分钟
 
+&nbsp;&nbsp;&nbsp;&nbsp;如果卡住了，可以将线程数降低后重试。不用担心，每次运行前都会自动清理之前产生的临时文件
+
 #### 7.如果一切正常，运行结束后 Magisk 模块和 mtz 主题包（如有）将输出至当前目录下
 
 #### 8.拷贝模块至手机，刷入并重启即可应用。
@@ -169,7 +171,7 @@ python HyperMonetIconThemeScript.py
 
 已在 Xiaomi 13: HyperOS 2.0.17 + Kitsune Mask 27001 上测试，目前一切正常
 
-理论上 HyperOS1 也能使用。MIUI14可能存在动画圆角遮罩问题
+理论上 HyperOS1 和其他Root方案也能使用。MIUI14可能存在动画圆角遮罩问题
 
 其他系统版本、其他分辨率机型待测试补充
 
