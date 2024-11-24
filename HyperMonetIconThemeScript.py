@@ -425,7 +425,8 @@ class ThemePacker:
                 for file in files:
                     file_path = os.path.join(root, file)
                     arcname = os.path.relpath(file_path, icons_template_dir)
-                    zf.write(file_path, arcname)
+                    if os.path.getsize(file_path) > 0:  # 只添加非空文件
+                        zf.write(file_path, arcname)
 
         # 重命名 icons.zip 为 icons, 拷贝到 mtz/magisk 模板
         # print("  (4/8) ThemePacker.pack_icons_zip: 拷贝 icons 到 mtz 和 magisk 模板")
