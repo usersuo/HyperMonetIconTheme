@@ -569,10 +569,10 @@ def main():
     # 使用mtz时桌面高级材质会丢失。magisk模块无此问题
     # 导入mtz需要主题破解
 
-    # ThemePacker.pack_mtz(
-    #     mtz_template_dir=str(mtz_template_dir),
-    #     target_mtz_pattern=target_mtz_pattern
-    # )
+    ThemePacker.pack_mtz(
+        mtz_template_dir=str(mtz_template_dir),
+        target_mtz_pattern=target_mtz_pattern
+    )
 
     print("\n处理完成, 工件已保存至当前目录")
     print("刷入后请重启设备")
