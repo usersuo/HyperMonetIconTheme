@@ -1,0 +1,58 @@
+name: Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          submodules: "recursive"
+          fetch-depth: 0
+
+      - name: Checkout LawnchairLauncher/lawnicons
+        uses: actions/checkout@v4
+        with:
+          repository: LawnchairLauncher/lawnicons
+          ref: develop
+          path: lawnicons-develop
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Prepare environment
+        run: pip install -r requirements.txt
+
+      - name: Build with Python
+        run: python HyperMonetIconThemeScript.py
+
+      - name: Prepare artifact
+        if: success()
+        id: prepareArtifact
+        run: |
+          moduleName=`ls magisk_module_Lawnicons_HyperMonetTheme_*.zip | awk -F '.zip' '{print $1}'` && echo "moduleName=$moduleName" >> $GITHUB_OUTPUT
+          mtzName=`ls mtz_theme_Lawnicons_HyperMonetTheme_*.mtz | awk -F '.mtz' '{print $1}'` && echo "mtzName=$mtzName" >> $GITHUB_OUTPUT
+          unzip magisk_module_Lawnicons_HyperMonetTheme_*.zip -d module
+          unzip mtz_theme_Lawnicons_HyperMonetTheme_*.mtz -d mtz
+
+      - name: Upload module
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.prepareArtifact.outputs.moduleName }}
+          path: "./module/*"
+
+      - name: Upload mtz
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.prepareArtifact.outputs.mtzName }}
+          path: "./mtz/*"
