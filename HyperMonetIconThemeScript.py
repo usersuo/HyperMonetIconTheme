@@ -103,6 +103,9 @@ target_magisk_pattern = str(
     current_dir / "magisk_module_Lawnicons_HyperMonetTheme_{timestamp}.zip"
 )
 
+# 当前时间戳
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
 # 运行次数反馈
 # 用于Github readme统计标签
 # https://hits.sh/github.com/VincentAzz/HyperMonetIconTheme-used
@@ -443,7 +446,6 @@ class ThemePacker:
         print(
             "  (5/6) ThemePacker.pack_magisk_module: 正在使用 zipfile 封装 magisk_template_HyperOS2"
         )
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         target_magisk = target_magisk_pattern.format(timestamp=timestamp)
 
         with zipfile.ZipFile(target_magisk, "w", zipfile.ZIP_STORED) as zf:
@@ -467,7 +469,6 @@ class ThemePacker:
         print(
             "  (7/8) ThemePacker.pack_mtz: 正在使用 zipfile 封装 mtz_template_HyperOS2"
         )
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         target_mtz = target_mtz_pattern.format(timestamp=timestamp)
 
         with zipfile.ZipFile(target_mtz, "w", zipfile.ZIP_STORED) as zf:
