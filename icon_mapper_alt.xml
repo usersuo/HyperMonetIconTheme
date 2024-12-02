@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 新增自定义图标映射 -->
+<!-- 请在下方中按格式添加: name="图标名" package="包名" drawable="svg图标名" -->
+<!-- 将合入到icon_mapper.xml -->
+<resources>
+  <!-- 电话 -->
+  <!-- 原有的com.android.dialer不生效，因为HyperOS的电话使用了启动页com.android.contacts.activities.TwelveKeyDialer -->
+  <item name="TwelveKeyDialer" package="com.android.contacts.activities.TwelveKeyDialer" drawable="dialer" />
+  <item name="DialtactsActivity" package="com.android.contacts.activities.DialtactsActivity" drawable="dialer" />
+  <item name="incallui" package="com.android.incallui" drawable="dialer" />
+  <item name="CallLogProvider" package="com.android.providers.contacts.CallLogProvider" drawable="dialer" />
+
+  <!-- 其他 -->
+  
+</resources>
+

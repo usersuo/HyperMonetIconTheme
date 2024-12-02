@@ -72,19 +72,25 @@ MAX_WORKERS = None
 current_dir = Path.cwd()
 
 # lawnicons的原始appfilter映射文件
-# original_appfilter = current_dir / "test" / "appfilter.xml" #少量图标，测试用，减少生成时间
 original_appfilter = (
-    current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
-)
+    current_dir / "test" / "appfilter.xml"
+)  # 少量图标，测试用，减少生成时间
+# original_appfilter = (
+#     current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
+# )
 
 # 处理后的icon包名映射文件
 # lawnicons的appfilter使用"包名/activity"而非包名来进一步细分item，一个包名可能对应多个item
 # 需要对appfilter去重，确保每个包名只出现一次
 icon_mapper = current_dir / "icon_mapper.xml"
 
+# 自定义图标映射文件
+# 新增自定义图标映射，请在icon_mapper_alt.xml中按格式添加
+icon_mapper_alt = current_dir / "icon_mapper_alt.xml"
+
 # lawnicons的原始svgs目录
-# svg_dir = current_dir / "test" / "svgs" #少量图标，测试用，减少生成时间
-svg_dir = current_dir / "lawnicons-develop" / "svgs"
+svg_dir = current_dir / "test" / "svgs"  # 少量图标，测试用，减少生成时间
+# svg_dir = current_dir / "lawnicons-develop" / "svgs"
 
 
 # 图标临时输出目录
@@ -131,14 +137,14 @@ class MappingProcessor:
     def convert_icon_mapper(input_path: str, output_path: str) -> None:
         # 读取并解析原始XML
         print(
-            f"  (1/4) MappingProcessor.convert_icon_mapper: 已找到 appfilter ({input_path})"
+            f"  (1/5) MappingProcessor.convert_icon_mapper: 已找到 appfilter ({input_path})"
         )
         tree = ET.parse(input_path)
         root = tree.getroot()
         unique_packages: Dict[str, tuple] = {}
 
         # 处理每个item
-        print("  (2/4) MappingProcessor.convert_icon_mapper: 正在去重 appfilter")
+        print("  (2/5) MappingProcessor.convert_icon_mapper: 正在去重 appfilter")
         for item in root.findall("item"):
             component = item.get("component", "")
             name = item.get("name", "")
@@ -147,6 +153,22 @@ class MappingProcessor:
             if component and drawable:
                 package = MappingProcessor.parse_component_info(component)
                 if package:
+                    unique_packages[package] = (name, drawable)
+
+        # 读取并合并 icon_mapper_alt.xml
+        if icon_mapper_alt.exists():
+            print(
+                "  (3/5) MappingProcessor.convert_icon_mapper: 正在合并自定义映射 icon_mapper_alt"
+            )
+            alt_tree = ET.parse(icon_mapper_alt)
+            alt_root = alt_tree.getroot()
+
+            for item in alt_root.findall("item"):
+                package = item.get("package", "")
+                name = item.get("name", "")
+                drawable = item.get("drawable", "")
+
+                if package and drawable:
                     unique_packages[package] = (name, drawable)
 
         # 创建新的xml结构
@@ -160,7 +182,7 @@ class MappingProcessor:
             new_item.set("drawable", drawable)
 
         # 写入文件
-        print("  (3/4) MappingProcessor.convert_icon_mapper: 正在生成 icon_mapper")
+        print("  (4/5) MappingProcessor.convert_icon_mapper: 正在生成 icon_mapper")
         tree = ET.ElementTree(new_root)
         with open(output_path, "w", encoding="utf-8") as f:
             f.write('<?xml version="1.0" encoding="utf-8"?>\n')
@@ -181,7 +203,7 @@ class MappingProcessor:
 
             f.write(formatted_string)
         print(
-            f"  (4/4) MappingProcessor.convert_icon_mapper: icon_mapper 映射文件已生成 ({output_path})"
+            f"  (5/5) MappingProcessor.convert_icon_mapper: icon_mapper 映射文件已生成 ({output_path})"
         )
 
 
@@ -401,7 +423,7 @@ class ThemePacker:
         magisk_template_dir=str,
     ):
         # 检查 drawable-xxhdpi目录
-        print("  (1/6) ThemePacker.pack_icons_zip: 检查目录")
+        print("  (1/8) ThemePacker.pack_icons_zip: 检查目录")
         icons_template_drawable_dir = (
             Path(icons_template_dir) / "res" / "drawable-xxhdpi"
         )
@@ -411,7 +433,7 @@ class ThemePacker:
         icons_template_drawable_dir.mkdir(parents=True)
 
         # 移动所有图标到 icons 模板的 drawable-xxhdpi 目录
-        print("  (2/6) ThemePacker.pack_icons_zip: 从 output 移动图标到 icons_template")
+        print("  (2/8) ThemePacker.pack_icons_zip: 从 output 移动图标到 icons_template")
         for item in Path(output_dir).iterdir():
             if item.is_dir():
                 # shutil.copytree(item, icons_template_drawable_dir / item.name)
@@ -419,12 +441,12 @@ class ThemePacker:
 
         # 打包 icons 模板目录
         print(
-            "  (3/6) ThemePacker.pack_icons_zip: 正在使用 zipfile 封装 icons_template"
+            "  (3/8) ThemePacker.pack_icons_zip: 正在使用 zipfile 封装 icons_template"
         )
         temp_icons_zip = Path(icons_template_dir) / "icons.zip"
 
         with zipfile.ZipFile(temp_icons_zip, "w", zipfile.ZIP_STORED) as zf:
-            for root, _, files in os.walk(icons_template_dir):
+            for root, dirs, files in os.walk(icons_template_dir):
                 for file in files:
                     file_path = os.path.join(root, file)
                     arcname = os.path.relpath(file_path, icons_template_dir)
@@ -432,8 +454,8 @@ class ThemePacker:
                         zf.write(file_path, arcname)
 
         # 重命名 icons.zip 为 icons, 拷贝到 mtz/magisk 模板
-        # print("  (4/8) ThemePacker.pack_icons_zip: 拷贝 icons 到 mtz 和 magisk 模板")
-        print("  (4/6) ThemePacker.pack_icons_zip: 合入 icons 到 magisk 模板")
+        print("  (4/8) ThemePacker.pack_icons_zip: 合入 icons 到 mtz 和 magisk 模板")
+        # print("  (4/6) ThemePacker.pack_icons_zip: 合入 icons 到 magisk 模板")
         final_icons = Path(icons_template_dir) / "icons"
         os.rename(temp_icons_zip, final_icons)
         shutil.copy(final_icons, mtz_template_dir)
@@ -444,7 +466,7 @@ class ThemePacker:
     def pack_magisk_module(magisk_template_dir: str, target_magisk_pattern: str):
 
         print(
-            "  (5/6) ThemePacker.pack_magisk_module: 正在使用 zipfile 封装 magisk_template_HyperOS2"
+            "  (5/8) ThemePacker.pack_magisk_module: 正在使用 zipfile 封装 magisk_template_HyperOS2"
         )
         target_magisk = target_magisk_pattern.format(timestamp=timestamp)
 
@@ -459,7 +481,7 @@ class ThemePacker:
                     zf.write(file_path, arcname)
 
         print(
-            f"  (6/6) ThemePacker.pack_magisk_module: magisk 模块已生成({target_magisk})"
+            f"  (6/8) ThemePacker.pack_magisk_module: magisk 模块已生成({target_magisk})"
         )
 
     # 打包 mtz (不建议)
@@ -529,15 +551,15 @@ def main():
     UsageCounter.request_hits(api_url_used)
 
     # 清理临时文件
-    print("(1/4) Cleaner: 开始清理临时文件")
+    print("(1/5) Cleaner: 运行前清理")
     Cleaner.cleanup(current_dir)
 
     # 处理映射
-    print("\n(2/4) MappingProcessor: 开始处理映射")
+    print("\n(2/5) MappingProcessor: 处理映射")
     MappingProcessor.convert_icon_mapper(str(original_appfilter), str(icon_mapper))
 
     # 处理图标
-    print("\n(3/4) IconProcessor: 开始处理图标")
+    print("\n(3/5) IconProcessor: 处理图标")
     IconProcessor.generate_icons(
         icon_mapper_path=str(icon_mapper),
         svg_dir=str(svg_dir),
@@ -550,7 +572,7 @@ def main():
     )
 
     # 打包icons
-    print("\n(4/4) ThemePacker: 开始打包")
+    print("\n(4/5) ThemePacker: 打包")
     ThemePacker.pack_icons_zip(
         output_dir=str(output_dir),
         icons_template_dir=str(icons_template_dir),
@@ -572,9 +594,11 @@ def main():
     # 导入mtz需要主题破解
 
     ThemePacker.pack_mtz(
-        mtz_template_dir=str(mtz_template_dir),
-        target_mtz_pattern=target_mtz_pattern
+        mtz_template_dir=str(mtz_template_dir), target_mtz_pattern=target_mtz_pattern
     )
+
+    print("\n(5/5) Cleaner: 运行后清理")
+    Cleaner.cleanup(current_dir)
 
     print("\n处理完成, 工件已保存至当前目录")
     print("刷入后请重启设备")
