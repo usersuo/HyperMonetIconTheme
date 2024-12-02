@@ -1,4 +1,4 @@
-# Copyright [2024] @VincentAzz
+# Copyright 2024 @VincentAzz
 #
 # 根据 Apache License Version 2.0（以下简称"许可证"）授权
 # 除非遵守本许可，否则您不能使用这个文件
@@ -72,12 +72,12 @@ MAX_WORKERS = None
 current_dir = Path.cwd()
 
 # lawnicons的原始appfilter映射文件
-original_appfilter = (
-    current_dir / "test" / "appfilter.xml"
-)  # 少量图标，测试用，减少生成时间
 # original_appfilter = (
-#     current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
-# )
+#     current_dir / "test" / "appfilter.xml"
+# ) 
+original_appfilter = (
+    current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
+)
 
 # 处理后的icon包名映射文件
 # lawnicons的appfilter使用"包名/activity"而非包名来进一步细分item，一个包名可能对应多个item
@@ -89,8 +89,8 @@ icon_mapper = current_dir / "icon_mapper.xml"
 icon_mapper_alt = current_dir / "icon_mapper_alt.xml"
 
 # lawnicons的原始svgs目录
-svg_dir = current_dir / "test" / "svgs"  # 少量图标，测试用，减少生成时间
-# svg_dir = current_dir / "lawnicons-develop" / "svgs"
+# svg_dir = current_dir / "test" / "svgs"  # 少量图标，测试用，减少生成时间
+svg_dir = current_dir / "lawnicons-develop" / "svgs"
 
 
 # 图标临时输出目录
@@ -103,14 +103,16 @@ magisk_template_dir = current_dir / "magisk_template_HyperOS"
 
 # 工件输出命名格式
 target_mtz_pattern = str(
-    current_dir / "mtz_theme_Lawnicons_HyperMonetTheme_{timestamp}.mtz"
+    current_dir / "mtz_theme_Lawnicons_HyperMonetTheme{theme_suffix}_{timestamp}.mtz"
 )
 target_magisk_pattern = str(
-    current_dir / "magisk_module_Lawnicons_HyperMonetTheme_{timestamp}.zip"
+    current_dir / "magisk_module_Lawnicons_HyperMonetTheme{theme_suffix}_{timestamp}.zip"
 )
 
-# 当前时间戳
+# 当前时间戳和主题名称
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+theme_name = os.getenv("THEME_NAME", "")  # 从环境变量获取主题名称，默认为空字符串
+theme_suffix = f"_{theme_name}" if theme_name else ""  # 如果有主题名称则添加后缀，否则为空
 
 # 运行次数反馈
 # 用于Github readme统计标签
@@ -340,7 +342,7 @@ class IconProcessor:
             )
             return False
 
-    # 遍历mapper，多线程处理全部图标
+    # 遍历mapper，多线程处理全部���标
     @classmethod
     def generate_icons(
         cls,
@@ -468,7 +470,7 @@ class ThemePacker:
         print(
             "  (5/8) ThemePacker.pack_magisk_module: 正在使用 zipfile 封装 magisk_template_HyperOS2"
         )
-        target_magisk = target_magisk_pattern.format(timestamp=timestamp)
+        target_magisk = target_magisk_pattern.format(timestamp=timestamp, theme_suffix=theme_suffix)
 
         with zipfile.ZipFile(target_magisk, "w", zipfile.ZIP_STORED) as zf:
             # 打包模板中的所有文件,除了 icons 目录
@@ -491,7 +493,7 @@ class ThemePacker:
         print(
             "  (7/8) ThemePacker.pack_mtz: 正在使用 zipfile 封装 mtz_template_HyperOS2"
         )
-        target_mtz = target_mtz_pattern.format(timestamp=timestamp)
+        target_mtz = target_mtz_pattern.format(timestamp=timestamp, theme_suffix=theme_suffix)
 
         with zipfile.ZipFile(target_mtz, "w", zipfile.ZIP_STORED) as zf:
             # 打包模板中的所有文件,除了 icons 目录
