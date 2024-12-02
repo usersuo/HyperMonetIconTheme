@@ -18,7 +18,7 @@ on:
         default: '#1c232b'
         type: string
       theme_name:
-        description: '颜色名称，包含在输出文件名中 (可选，例如: 深色_蓝)'
+        description: '颜色名称，将包含在输出文件名中 (可选，例如: dark_blue)'
         required: false
         default: ''
         type: string
@@ -53,7 +53,7 @@ jobs:
         env:
           FG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.fg_color || '#d1e2fc' }}
           BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#1c232b' }}
-          THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '深色蓝' }}
+          THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || 'dark_blue' }}
         run: |
           sed -i "s/^FG_COLOR = \".*\"/FG_COLOR = \"$FG_COLOR\"/" HyperMonetIconThemeScript.py
           sed -i "s/^BG_COLOR = \".*\"/BG_COLOR = \"$BG_COLOR\"/" HyperMonetIconThemeScript.py

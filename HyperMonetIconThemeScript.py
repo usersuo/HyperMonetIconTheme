@@ -342,7 +342,7 @@ class IconProcessor:
             )
             return False
 
-    # 遍历mapper，多线程处理全部���标
+    # 遍历mapper，多线程处理全部图标
     @classmethod
     def generate_icons(
         cls,
