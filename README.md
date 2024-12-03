@@ -1,7 +1,6 @@
 # HyperMonetIconTheme
 
-[![Hits](https://hits.sh/github.com/VincentAzz/HyperMonetIconTheme-visited.SVG?label=%E8%AE%BF%E9%97%AE%E8%AE%A1%E6%95%B0)](https://hits.sh/github.com/VincentAzz/HyperMonetIconTheme-visited/)
-
+[![Hits](https://hits.sh/github.com/VincentAzz/HyperMonetIconTheme-visited.svg?label=%E8%AE%BF%E9%97%AE%E8%AE%A1%E6%95%B0)](https://hits.sh/github.com/VincentAzz/HyperMonetIconTheme-visited/)
 
 ## 🤔 这是什么
 
