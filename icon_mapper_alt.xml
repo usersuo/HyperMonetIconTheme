@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 新增自定义图标映射 -->
-<!-- 请在下方中按格式添加: name="图标名" package="包名" drawable="svg图标名" -->
-<!-- 将合入到icon_mapper.xml -->
+<!-- 自定义图标映射文件 -->
+<!-- 
+    1. 此文件用于自定义应用的图标映射，可以将任意应用映射到已有的图标
+    2. 添加方式: 在 <resources> 标签内按以下格式添加 item:
+      <item name="名称" package="应用包名" drawable="图标名称" />
+
+    3. 参数说明:
+      - name: 名称，非桌面显示名称，仅用于标识。可以使用package的最后一项
+      - package: 应用的包名，可以在应用信息中查看
+      - drawable: svg图标的文件名(不含.svg后缀)，必须是 lawnicons-develop/svgs 目录中已存在的图标
+
+    4. 示例:
+      想要将未适配的"某应用"(包名: com.example.app)使用"电话"图标显示:
+      在下方添加:
+        <item name="example" package="com.example.app" drawable="dialer" />
+      将合入到icon_mapper.xml中
+
+      想要修改已适配的"Google Chrome Canary"(包名: com.chrome.canary)的图标替换为"Google Chrome"的图标:
+      在下方添加:
+        <item name="Chrome Canary" package="com.chrome.canary" drawable="google_chrome" />
+      将替换icon_mapper.xml原有的映射
+        <item name="Chrome Canary" package="com.chrome.canary" drawable="google_chrome_canary" />
+
+    5. 注意:
+      - 此文件中的映射会覆盖原有的 icon_mapper.xml 中的映射
+      - 一个包名只能映射到一个图标
+      - drawable 必须使用已存在的图标名称
+-->
+
 <resources>
   <!-- 电话 -->
-  <!-- 原有的com.android.dialer不生效，因为HyperOS的电话使用了启动页com.android.contacts.activities.TwelveKeyDialer -->
+  <!-- 电话com.android.dialer不生效，因为HyperOS使用了启动页com.android.contacts.activities.TwelveKeyDialer替代原有的com.android.dialer -->
   <item name="TwelveKeyDialer" package="com.android.contacts.activities.TwelveKeyDialer" drawable="dialer" />
   <item name="DialtactsActivity" package="com.android.contacts.activities.DialtactsActivity" drawable="dialer" />
   <item name="incallui" package="com.android.incallui" drawable="dialer" />
