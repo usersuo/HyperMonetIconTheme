@@ -132,6 +132,42 @@ Monet 图标分为前景色和背景色。前景色 FG_COLOR 用作图标线条�
 
 也可根据个人喜好搭配色彩、深浅和对比度
 
+
+#### 方式3：使用预设颜色值
+
+下面提供了几组样例图片中所使用的配色方案
+
+```python
+# 深色主题 蓝色
+FG_COLOR = "#d1e2fc"
+BG_COLOR = "#1c232b"
+
+# 浅色主题 蓝色
+FG_COLOR = "#011c31"
+BG_COLOR = "#e8ecf7"
+```
+```python
+# 深色主题 红色
+FG_COLOR = "#fcdbcf"
+BG_COLOR = "#2d2017"
+
+# 浅色主题 红色
+FG_COLOR = "#331300"
+BG_COLOR = "#f5eae4"
+```
+```python
+# 深色主题 绿色
+FG_COLOR = "#c7efac"
+BG_COLOR = "#1e241a"
+
+# 浅色主题 绿色
+FG_COLOR = "#071e02"
+BG_COLOR = "#eaeee0"
+```
+
+
+
+
 <br/>
 
 ### Step2：运行脚本
