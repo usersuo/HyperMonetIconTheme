@@ -177,7 +177,7 @@ BG_COLOR = "#eaeee0"
 1. 确保你有Github账号并登录
 2. Fork 本仓库
 3. 进入 Fork 仓库的 Actions 页面
-4. 点击 "Build" workflow
+4. 点击左侧的 "Build"
 5. 点击右侧的 "Run workflow"：
     - 填入先前获取的前景色和背景色（十六进制颜色值，如 #d1e2fc），或使用默认的深蓝色配色
     - 可选添加颜色主题名称（将包含在输出文件名中）
