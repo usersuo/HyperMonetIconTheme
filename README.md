@@ -174,7 +174,7 @@ BG_COLOR = "#eaeee0"
 
 ### Step2：运行脚本
 
-#### 方式一（推荐）：通过GitHub Actions在线构建
+#### 方式1（推荐）：通过GitHub Actions在线构建
 无需配置环境，直接在线构建：
 1. 确保你有Github账号并登录
 2. Fork 本仓库
@@ -186,7 +186,7 @@ BG_COLOR = "#eaeee0"
 6. 需要处理7000+个图标，耗时大约6分钟
 7. 待构建完成后下载 Artifacts：`magisk_module_*.zip` 和 `mtz_theme_*.mtz`
 
-#### 方式二：本地构建
+#### 方式2：本地构建
 需要配置本地环境：
 1. 下载或克隆本仓库和 [Lawnicons develop](https://github.com/LawnchairLauncher/lawnicons) 分支
 2. 将 lawnicons-develop 目录置于本项目目录下，确保 lawnicons-develop 下不存在更进一步的嵌套目录

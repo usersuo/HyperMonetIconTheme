@@ -160,7 +160,7 @@ BG_COLOR = "#eaeee0"
 
 ### Step2: Run the Script
 
-#### Method One (Recommended): Build Online via GitHub Actions
+#### Method 1 (Recommended): Build Online via GitHub Actions
 No need to configure environment, build directly online:
 1. Make sure you have a Github account and are logged in
 2. Fork this repository
@@ -172,7 +172,7 @@ No need to configure environment, build directly online:
 6. It will take about 7 minutes to process 7,000+ icons
 7. Download Artifacts after build completion: `magisk_module_*.zip` and `mtz_theme_*.mtz`
 
-#### Method Two: Local Build
+#### Method 2: Local Build
 Need to configure local environment:
 1. Download or clone this repository and [Lawnicons develop](https://github.com/LawnchairLauncher/lawnicons) branch
 2. Place the lawnicons-develop directory under this project directory, ensure no further nested directories exist under lawnicons-develop
