@@ -210,10 +210,10 @@ BG_COLOR = "#eaeee0"
 
 
 
-#### 方式三：下载预构建包
+<!-- #### 方式三：下载预构建包
 从以下渠道下载预构建的几个 Magisk 模块，配色方案参照上方样例图：
 - [GitHub Releases](https://github.com/VincentAzz/HyperMonetIconTheme/releases/tag/v1.0.0)
-- [123云盘](https://www.123684.com/s/ILmbVv-AtvTH)
+- [123云盘](https://www.123684.com/s/ILmbVv-AtvTH) -->
 
 
 <br/>
