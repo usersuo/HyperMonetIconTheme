@@ -58,7 +58,7 @@ jobs:
         env:
           FG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.fg_color || '#d1e2fc' }}
           BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#1c232b' }}
-          THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || 'dark_blue' }}
+          THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
         run: |
           sed -i "s/^FG_COLOR = \".*\"/FG_COLOR = \"$FG_COLOR\"/" HyperMonetIconThemeScript.py
           sed -i "s/^BG_COLOR = \".*\"/BG_COLOR = \"$BG_COLOR\"/" HyperMonetIconThemeScript.py
