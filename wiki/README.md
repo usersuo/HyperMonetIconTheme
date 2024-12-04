@@ -254,7 +254,7 @@ BG_COLOR = "#eaeee0"
 - Xiaomi 12S (CN)
   - HyperOS 1.0.24.7.28.DEV (Android 14) + Magisk 26.4
 
-MIUI14及更低版本可能会遇到遮罩圆角问题。
+MIUI14及更低版本可能会遇到动画遮罩问题。
 
 Global 和 EU 系统版本待进一步测试。
 
