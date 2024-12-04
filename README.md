@@ -143,7 +143,7 @@ Monet 图标分为前景色和背景色。前景色 FG_COLOR 用作图标线条�
 3. 进入 Fork 仓库的 Actions 页面
 4. 点击 "Build" workflow
 5. 点击右侧的 "Run workflow"：
-    - 填入先前获取的前景色和背景色（十六进制颜色值，如 #d1e2fc），留空则使用脚本中默认的深蓝色配色
+    - 填入先前获取的前景色和背景色（十六进制颜色值，如 #d1e2fc），或使用默认的深蓝色配色
     - 可选添加颜色主题名称（将包含在输出文件名中）
 6. 需要处理7000+个图标，耗时大约6分钟
 7. 待构建完成后下载 Artifacts：`magisk_module_*.zip` 和 `mtz_theme_*.mtz`
@@ -232,7 +232,7 @@ Monet 图标分为前景色和背景色。前景色 FG_COLOR 用作图标线条�
 - [ ] 图标分应用着色
 - [ ] 图标分区着色
 
-  例如：Niagara Launcher 的 Anycons 多重样式：https://help.niagaralauncher.app/article/149-anycons
+  将实现类似于 Niagara Launcher 的 Anycons 各样式效果：https://help.niagaralauncher.app/article/149-anycons
 
 
 <br/>
