@@ -55,11 +55,11 @@ class BuildConfig:
 class PathConfig:
     # lawnicons的原始映射文件
     # 测试目录
-    original_appfilter = current_dir / "test" / "appfilter.xml"
+    # original_appfilter = current_dir / "test" / "appfilter.xml"
     # 生产目录
-    # original_appfilter = (
-    #     current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
-    # )
+    original_appfilter = (
+        current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
+    )
 
     # 处理后的映射文件
     icon_mapper = current_dir / "mappers" / "icon_mapper.xml"
@@ -70,9 +70,9 @@ class PathConfig:
 
     # SVG源文件
     # 测试目录
-    svg_dir = current_dir / "test" / "svgs"
+    # svg_dir = current_dir / "test" / "svgs"
     # 生产目录
-    # svg_dir = current_dir / "lawnicons-develop" / "svgs"
+    svg_dir = current_dir / "lawnicons-develop" / "svgs"
 
     # 图标临时输出目录
     output_dir = current_dir / "output"
