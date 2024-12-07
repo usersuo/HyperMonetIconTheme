@@ -184,7 +184,7 @@ BG_COLOR = "#eaeee0"
     - 填入先前获取的前景色和背景色（十六进制颜色值，如 #d1e2fc），或使用默认的深蓝色配色
     - 可选添加颜色主题名称（将包含在输出文件名中）
 6. 需要处理7000+个图标，耗时大约6分钟
-7. 待构建完成后下载 Artifacts：`magisk_module_*.zip` 和 `mtz_theme_*.mtz`
+7. 待构建完成后下载 Artifacts：`magisk_HyperMonetIcon_*.zip` 和 `mtz_HyperMonetIcon_*.mtz`
 
 #### 方式2：本地构建
 需要配置本地环境：
@@ -204,11 +204,11 @@ BG_COLOR = "#eaeee0"
 4. 安装包含了 Cairo 图形库的 [GTK For Windows Runtime](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases/download/2022-01-04/gtk3-runtime-3.24.31-2022-01-04-ts-win64.exe)
 
 5. 安装 cairoSVG 和 pillow，在终端中执行：`pip install cairoSVG pillow`
-6. 按需编辑 `HyperMonetIconThemeScript.py` 中 `35-36行` 的颜色值和 `69行` 的线程数
-7. 按需编辑`icon_mapper_alt.xml`，自定义图标映射 (建议阅读注释)
+6. 按需编辑 `configs/config.py` 中 15-16行 的颜色值和 51行 的线程数
+7. 按需编辑 `mappers/icon_mapper_alt.xml`，自定义图标映射 (建议阅读注释)
 7. 在当前目录下的终端中执行：`python HyperMonetIconThemeScript.py`
 8. 运行耗时取决于CPU性能和线程数设置，大约需要5分钟
-9. 运行结束后，工件 `magisk_module_*.zip` 和 `mtz_theme_*.mtz` 将输出至当前目录
+9. 运行结束后，工件 `magisk_HyperMonetIcon_*.zip` 和 `mtz_HyperMonetIcon_*.mtz` 将输出至当前目录
 
 
 
