@@ -68,21 +68,16 @@ jobs:
         if: success()
         id: prepareArtifact
         run: |
-          moduleName=`ls magisk_HyperMonetIcon*.zip | awk -F '.zip' '{print $1}'` && echo "moduleName=$moduleName" >> $GITHUB_OUTPUT
-          mtzName=`ls mtz_HyperMonetIcon*.mtz | awk -F '.mtz' '{print $1}'` && echo "mtzName=$mtzName" >> $GITHUB_OUTPUT
+          # 创建目录存放最终文件
+          mkdir -p artifacts
+          # 直接复制文件并重命名
+          cp magisk_HyperMonetIcon*.zip artifacts/magisk_module.zip
+          cp mtz_HyperMonetIcon*.mtz artifacts/theme.mtz
 
-      - name: Upload module
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.prepareArtifact.outputs.moduleName }}.zip
-          path: magisk_HyperMonetIcon*.zip
-          if-no-files-found: error
-          compression-level: 0
-
-      - name: Upload mtz
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.prepareArtifact.outputs.mtzName }}.mtz
-          path: mtz_HyperMonetIcon*.mtz
+          name: HyperMonetIcon
+          path: artifacts/*
           if-no-files-found: error
           compression-level: 0
