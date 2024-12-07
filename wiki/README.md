@@ -174,7 +174,7 @@ BG_COLOR = "#eaeee0"
 
 ### Step2：运行脚本
 
-#### 方式一（推荐）：通过GitHub Actions在线构建
+#### 方式1（推荐）：通过GitHub Actions在线构建
 无需配置环境，直接在线构建：
 1. 确保你有Github账号并登录
 2. Fork 本仓库
@@ -184,9 +184,9 @@ BG_COLOR = "#eaeee0"
     - 填入先前获取的前景色和背景色（十六进制颜色值，如 #d1e2fc），或使用默认的深蓝色配色
     - 可选添加颜色主题名称（将包含在输出文件名中）
 6. 需要处理7000+个图标，耗时大约6分钟
-7. 待构建完成后下载 Artifacts：`magisk_module_*.zip` 和 `mtz_theme_*.mtz`
+7. 待构建完成后下载 Artifacts：`magisk_HyperMonetIcon_*.zip` 和 `mtz_HyperMonetIcon_*.mtz`
 
-#### 方式二：本地构建
+#### 方式2：本地构建
 需要配置本地环境：
 1. 下载或克隆本仓库和 [Lawnicons develop](https://github.com/LawnchairLauncher/lawnicons) 分支
 2. 将 lawnicons-develop 目录置于本项目目录下，确保 lawnicons-develop 下不存在更进一步的嵌套目录
@@ -204,11 +204,11 @@ BG_COLOR = "#eaeee0"
 4. 安装包含了 Cairo 图形库的 [GTK For Windows Runtime](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases/download/2022-01-04/gtk3-runtime-3.24.31-2022-01-04-ts-win64.exe)
 
 5. 安装 cairoSVG 和 pillow，在终端中执行：`pip install cairoSVG pillow`
-6. 按需编辑 `HyperMonetIconThemeScript.py` 中 `35-36行` 的颜色值和 `69行` 的线程数
+6. 按需编辑 `HyperMonetIconThemeScript.py` 中 29-30行 的颜色值和 63行 的线程数
 7. 按需编辑`icon_mapper_alt.xml`，自定义图标映射 (建议阅读注释)
 7. 在当前目录下的终端中执行：`python HyperMonetIconThemeScript.py`
 8. 运行耗时取决于CPU性能和线程数设置，大约需要5分钟
-9. 运行结束后，工件 `magisk_module_*.zip` 和 `mtz_theme_*.mtz` 将输出至当前目录
+9. 运行结束后，工件 `magisk_HyperMonetIcon_*.zip` 和 `mtz_HyperMonetIcon_*.mtz` 将输出至当前目录
 
 
 
@@ -254,7 +254,7 @@ BG_COLOR = "#eaeee0"
 - Xiaomi 12S (CN)
   - HyperOS 1.0.24.7.28.DEV (Android 14) + Magisk 26.4
 
-MIUI14及更低版本可能会遇到动画遮罩问题。
+MIUI14及更低版本可能会遇到遮罩圆角问题。
 
 Global 和 EU 系统版本待进一步测试。
 

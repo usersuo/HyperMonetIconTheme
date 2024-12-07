@@ -170,7 +170,7 @@ No need to configure environment, build directly online:
     - Enter the previously obtained foreground and background colors (HEX color, e.g., #d1e2fc), or use the default dark blue color scheme
     - Optionally add a color theme name (will be included in output filenames)
 6. It will take about 7 minutes to process 7,000+ icons
-7. Download Artifacts after build completion: `magisk_module_*.zip` and `mtz_theme_*.mtz`
+7. Download Artifacts after build completion: `magisk_HyperMonetIcon_*.zip` and `mtz_HyperMonetIcon_*.mtz`
 
 #### Method 2: Local Build
 Need to configure local environment:
@@ -187,11 +187,11 @@ Need to configure local environment:
 3. Install [Python 3.x](https://www.python.org/downloads/), remember to check "Add Python to Path"
 4. Install [GTK For Windows Runtime](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases/download/2022-01-04/gtk3-runtime-3.24.31-2022-01-04-ts-win64.exe) which includes Cairo graphics library
 5. Install cairoSVG and pillow, execute in terminal: `pip install cairoSVG pillow`
-6. Edit color values in lines 35-36 and thread count in line 69 of `HyperMonetIconThemeScript.py` as needed
-7. Edit `icon_mapper_alt.xml` for custom icon mapping as needed (recommend reading comments)
+6. Edit color values in lines 15-16 and thread count in line 51 of `configs/config.py` as needed
+7. Edit `mappers/icon_mapper_alt.xml` for custom icon mapping as needed (recommend reading comments)
 8. Execute in terminal in current directory: `python HyperMonetIconThemeScript.py`
 9. Runtime depends on CPU performance and thread count settings, about 5 minutes
-10. After completion, artifacts `magisk_module_*.zip` and `mtz_theme_*.mtz` will be output to current directory
+10. After completion, artifacts `magisk_HyperMonetIcon_*.zip` and `mtz_HyperMonetIcon_*.mtz` will be output to current directory
 
 <br/>
 

@@ -60,27 +60,25 @@ jobs:
           BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#1c232b' }}
           THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
         run: |
-          sed -i "s/^FG_COLOR = \".*\"/FG_COLOR = \"$FG_COLOR\"/" HyperMonetIconThemeScript.py
-          sed -i "s/^BG_COLOR = \".*\"/BG_COLOR = \"$BG_COLOR\"/" HyperMonetIconThemeScript.py
+          sed -i "s/^    FG_COLOR = \".*\"/    FG_COLOR = \"$FG_COLOR\"/" configs/config.py
+          sed -i "s/^    BG_COLOR = \".*\"/    BG_COLOR = \"$BG_COLOR\"/" configs/config.py
           python HyperMonetIconThemeScript.py
 
       - name: Prepare artifact
         if: success()
         id: prepareArtifact
         run: |
-          moduleName=`ls magisk_module_Lawnicons_HyperMonetTheme_*.zip | awk -F '.zip' '{print $1}'` && echo "moduleName=$moduleName" >> $GITHUB_OUTPUT
-          mtzName=`ls mtz_theme_Lawnicons_HyperMonetTheme_*.mtz | awk -F '.mtz' '{print $1}'` && echo "mtzName=$mtzName" >> $GITHUB_OUTPUT
-          unzip magisk_module_Lawnicons_HyperMonetTheme_*.zip -d module
-          unzip mtz_theme_Lawnicons_HyperMonetTheme_*.mtz -d mtz
+          moduleName=`ls magisk_HyperMonetIcon*.zip | awk -F '.zip' '{print $1}'` && echo "moduleName=$moduleName" >> $GITHUB_OUTPUT
+          mtzName=`ls mtz_HyperMonetIcon*.mtz | awk -F '.mtz' '{print $1}'` && echo "mtzName=$mtzName" >> $GITHUB_OUTPUT
 
       - name: Upload module
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.prepareArtifact.outputs.moduleName }}
-          path: "./module/*"
+          path: magisk_HyperMonetIcon*.zip
 
       - name: Upload mtz
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.prepareArtifact.outputs.mtzName }}
-          path: "./mtz/*"
+          path: mtz_HyperMonetIcon*.mtz
