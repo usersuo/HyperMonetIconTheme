@@ -74,11 +74,15 @@ jobs:
       - name: Upload module
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.prepareArtifact.outputs.moduleName }}
+          name: ${{ steps.prepareArtifact.outputs.moduleName }}.zip
           path: magisk_HyperMonetIcon*.zip
+          if-no-files-found: error
+          compression-level: 0
 
       - name: Upload mtz
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.prepareArtifact.outputs.mtzName }}
+          name: ${{ steps.prepareArtifact.outputs.mtzName }}.mtz
           path: mtz_HyperMonetIcon*.mtz
+          if-no-files-found: error
+          compression-level: 0
