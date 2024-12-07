@@ -2,7 +2,7 @@
 
 ui_print "  HyperMonetIconTheme"
 ui_print "  一个基于Lawnicon SVG图标库的HyperOS莫奈图标主题"
-ui_print "  使用HyperMonet脚本生成"
+ui_print "  使用HyperMonetIconThemeScript脚本构建"
 ui_print "  作者：酷安@CapybaraSaid / Github@VincentAzz (0xCapybara)"
 
 
