@@ -6,18 +6,20 @@
 
 ## 🤔 这是什么
 
-一个让 HyperOS 支持 Material You Monet 风格图标的 Python 脚本。
+一个让 HyperOS 通过 Magisk 模块支持 Material You Monet 风格图标的 Python 脚本。
 
 本项目通过移植转换并着色 [Lawnicons](https://github.com/LawnchairLauncher/lawnicons) 的SVG图标资源，为缺乏 Material You 图标着色支持且不能使用三方图标包的 HyperOS 提供了优雅的 Monet 风格图标支持，效果优于各类莫奈图标主题。
 
 主要特点：
 
+- 通过 Magisk 模块安装
 - 完整移植 Lawnicons 的 7000+ 个高质量单色图标，支持大量国内外应用
 - 保持 HyperOS 原生的连续曲率圆角设计
 - 支持自定义图标前景色和背景色
 - 支持自定义图标映射
+- 支持一键锁屏快捷方式
 - 支持 Github Action 云端快速构建
-- 提供 Magisk 模块和 mtz 主题包两种安装方式
+
 
 >[!IMPORTANT]  
 > 需要 root 权限
@@ -82,7 +84,8 @@ Lawnicons 还包含了图标-包名的映射文件`appfilter.xml`，这为生成
 3. **主题包构建**
    - 按应用包名组织图标资源
    - 生成符合 HyperOS 规范的 icons 资源包
-   - 打包为 Magisk 模块和 mtz 主题包
+   - 打包为 Magisk 模块
+   <!-- - 打包为 Magisk 模块和 mtz 主题包 -->
 
 
 虽然无法实现真正的端侧动态取色，但通过自定义颜色方案，仍可以实现与壁纸色彩高度统一的 Monet 图标效果。
@@ -166,8 +169,11 @@ BG_COLOR = "#1e241a"
 FG_COLOR = "#071e02"
 BG_COLOR = "#eaeee0"
 ```
-
-
+```python
+# 浅色主题 黑白 (构建速度最快)
+FG_COLOR = "#000000"
+BG_COLOR = "#ffffff"
+```
 
 
 <br/>
@@ -184,7 +190,7 @@ BG_COLOR = "#eaeee0"
     - 填入先前获取的前景色和背景色（十六进制颜色值，如 #d1e2fc），或使用默认的深蓝色配色
     - 可选添加颜色主题名称（将包含在输出文件名中）
 6. 需要处理7000+个图标，耗时大约6分钟
-7. 待构建完成后下载 Artifacts：`magisk_HyperMonetIcon_*.zip` 和 `mtz_HyperMonetIcon_*.mtz`
+7. 待构建完成后下载 Artifacts：`magisk_HyperMonetIcon_*.zip` 和 `mtz_HyperMonetIcon_*.zip`，并解压一次
 
 #### 方式2：本地构建
 需要配置本地环境：
@@ -222,20 +228,20 @@ BG_COLOR = "#eaeee0"
 
 ### Step3：安装使用
 #### Magisk 模块
-1. 通过 Magisk / Kitsune Mask / KernelSU 刷入模块
+1. 通过 Magisk / Kitsune Mask / KernelSU 刷入 zip 模块
 2. 重启设备
 3. 如需更新图标，建议删除旧模块并重启后再刷入新模块
 
 #### mtz 主题包 (不推荐)
 1. 确保已经安装 LSPosed 和主题破解
-2. 在主题商店中从SD卡导入mtz文件
+2. 在主题商店中从SD卡导入 mtz 文件
 3. 进入 模块混搭-图标，使用本主题图标
 
  > [!WARNING] 
  >
  > 务必优先使用 Magisk 模块而非 mtz 主题包
  >
- > mtz受版本影响较大，无高级材质，部分图标无法生效，应用开闭动画圆角可能有问题
+ > mtz还在测试当中。受版本影响较大，无高级材质，部分图标无法生效，应用开闭动画圆角可能有问题
 
 
 
@@ -269,10 +275,11 @@ Global 和 EU 系统版本待进一步测试。
 - [x] 基础实现
 - [x] 自定义图标映射
 - [x] 集成到 Github Action
+- [x] 一键锁屏快捷方式
 
 #### 🚧 进行中
 
-- [ ] 适配桌面快捷方式图标 (一键锁屏等)
+- [ ] 其他快捷方式图标
 - [ ] 更多形状及遮罩：Pixel圆形、OneUI风格
 - [ ] 兼容性增强
 

@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
+# 映射处理器
 class MappingProcessor:
     # 提取原始Appfilter中ComponentInfo的包名
     @staticmethod
