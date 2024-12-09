@@ -1,7 +1,7 @@
 import os
 import shutil
 
-
+# 清理器
 class Cleaner:
     def cleanup(clean_up: list):
         print(f"  (1/1) Cleaner.cleanup: 正在清理")
