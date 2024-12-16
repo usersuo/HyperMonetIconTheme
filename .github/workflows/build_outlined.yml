@@ -60,8 +60,8 @@ jobs:
           BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#1c232b' }}
           THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
         run: |
-          sed -i "s/^    FG_COLOR = \".*\"/    FG_COLOR = \"$FG_COLOR\"/" configs/config.py
-          sed -i "s/^    BG_COLOR = \".*\"/    BG_COLOR = \"$BG_COLOR\"/" configs/config.py
+          sed -i "s/^    fg_color = \".*\"/    fg_color = \"$FG_COLOR\"/" configs/config.py
+          sed -i "s/^    bg_color = \".*\"/    bg_color = \"$BG_COLOR\"/" configs/config.py
           python build_outlined.py
 
       - name: Prepare artifact
