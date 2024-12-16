@@ -1,0 +1,90 @@
+name: Build Filled Style
+
+permissions:
+  actions: read
+  contents: read
+  id-token: write
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      fg_color:
+        description: '前景色FG_COLOR (线条颜色，例如 #003a71)'
+        required: true
+        default: '#003a71'
+        type: string
+      bg_color:
+        description: '背景色BG_COLOR (背景颜色，例如 #a1cafe)'
+        required: true
+        default: '#a1cafe'
+        type: string
+      theme_name:
+        description: '颜色名称，将包含在输出文件名中 (可选，例如: light_blue)'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          submodules: "recursive"
+          fetch-depth: 0
+
+      - name: Checkout LawnchairLauncher/lawnicons
+        uses: actions/checkout@v4
+        with:
+          repository: LawnchairLauncher/lawnicons
+          ref: develop
+          path: lawnicons-develop
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Prepare environment
+        run: |
+          pip install -r requirements.txt
+          pip install opencv-python-headless
+
+      - name: Build with Python
+        env:
+          FG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.fg_color || '#003a71' }}
+          BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#a1cafe' }}
+          THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
+        run: |
+          sed -i "s/^    fg_color: str = \".*\"/    fg_color: str = \"$FG_COLOR\"/" configs/config.py
+          sed -i "s/^    bg_color: str = \".*\"/    bg_color: str = \"$BG_COLOR\"/" configs/config.py
+          python build_filled.py
+
+      - name: Prepare artifact
+        if: success()
+        id: prepareArtifact
+        run: |
+          moduleName=`ls magisk_HyperMonetIcon*.zip | awk -F '.zip' '{print $1}'` && echo "moduleName=$moduleName" >> $GITHUB_OUTPUT
+      - name: Upload module
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.prepareArtifact.outputs.moduleName }}.zip
+          path: magisk_HyperMonetIcon*.zip
+          if-no-files-found: error
+          compression-level: 0
+
+      # - name: Upload mtz
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ steps.prepareArtifact.outputs.mtzName }}.mtz
+      #     path: mtz_HyperMonetIcon*.mtz
+      #     if-no-files-found: error
+      #     compression-level: 0 
+
+# mtzName=`ls mtz_HyperMonetIcon*.mtz | awk -F '.mtz' '{print $1}'` && echo "mtzName=$mtzName" >> $GITHUB_OUTPUT

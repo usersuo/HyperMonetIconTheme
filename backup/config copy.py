@@ -73,7 +73,7 @@ class IconConfig:
 
     # 图标大小和缩放比例
     # HyperOS图标（和背景）最大为432*432，且系统会对图标本体前景）四周进行33.3%的裁切
-    # 66.6%缩放可预留裁切空间，此时为432*66.6%=288，铺满背景画布，图标过大
+    # 66.6%缩放可预留裁切空间，此时图标本体长宽为432*66.6%=288，铺满背景画布，图标过大
     # 按40%缩放，最终图标本体长宽为432*40%=172，效果最佳，不至于铺满背景画布
     icon_size: int = 432  # 图标大小432*432
     icon_scale: float = 0.4  # 图标占未裁切背景画布的40%
@@ -117,36 +117,29 @@ class FillIconConfig:
         return f"#{int(fill_rgb[0]*255):02x}{int(fill_rgb[1]*255):02x}{int(fill_rgb[2]*255):02x}"
 
 
-# Lawnicons路径配置
-class LawniconsPathConfig:
-    # 测试目录
-    test_appfilter: Path = current_dir / "test" / "appfilter.xml"
-    test_svg_dir: Path = current_dir / "test" / "svgs"
-
-    # 生产目录
-    prod_appfilter: Path = (
-        current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
-    )
-    prod_svg_dir: Path = current_dir / "lawnicons-develop" / "svgs"
-
-    @classmethod
-    def get_appfilter(cls, test_env: bool = True) -> Path:
-        return cls.test_appfilter if test_env else cls.prod_appfilter
-
-    @classmethod
-    def get_svg_dir(cls, test_env: bool = True) -> Path:
-        return cls.test_svg_dir if test_env else cls.prod_svg_dir
-
-
-# 工件路径配置
+# 路径配置
 @dataclass
-class ArtifactPathConfig:
+class PathConfig:
+    # lawnicons的原始映射文件
+    # 测试目录
+    original_appfilter: Path = current_dir / "test" / "appfilter.xml"
+    # 生产目录
+    # original_appfilter: Path = (
+    #     current_dir / "lawnicons-develop" / "app" / "assets" / "appfilter.xml"
+    # )
+
     # 处理后的映射文件
     icon_mapper: Path = current_dir / "mappers" / "icon_mapper.xml"
 
     # 自定义映射文件
     # 用于新增自定义图标映射，请在icon_mapper_alt.xml中按格式添加
     icon_mapper_alt: Path = current_dir / "mappers" / "icon_mapper_alt.xml"
+
+    # SVG源文件
+    # 测试目录
+    svg_dir: Path = current_dir / "test" / "svgs"
+    # 生产目录
+    # svg_dir: Path = current_dir / "lawnicons-develop" / "svgs"
 
     # 图标临时输出目录
     output_dir: Path = current_dir / "output"
@@ -167,11 +160,8 @@ class ArtifactPathConfig:
     target_mtz_pattern: str = str(
         current_dir / f"mtz_HyperMonetIcon{theme_suffix}_{timestamp}.mtz"
     )
-    target_magisk_pattern_filled: str = str(
-        current_dir / f"magisk_HyperMonetIcon_filled_{theme_suffix}_{timestamp}.zip"
-    )
-    target_magisk_pattern_outlined: str = str(
-        current_dir / f"magisk_HyperMonetIcon_outlined_{theme_suffix}_{timestamp}.zip"
+    target_magisk_pattern: str = str(
+        current_dir / f"magisk_HyperMonetIcon{theme_suffix}_{timestamp}.zip"
     )
 
 
