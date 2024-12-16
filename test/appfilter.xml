@@ -6,4 +6,7 @@
   <item name="酷安 ~~ CoolAPK" component="ComponentInfo{com.coolapk.market/com.coolapk.market.view.main.MainActivity}" drawable="coolapk"/>  
   <item name="NetEase Music" component="ComponentInfo{com.netease.cloudmusic/com.netease.cloudmusic.activity.LoadingActivity}" drawable="netease_music"/>  
   <item name="WeChat" component="ComponentInfo{com.tencent.mm/com.tencent.mm.ui.LauncherUI}" drawable="wechat"/> 
+
+  <item component="ComponentInfo{com.android.vending/org.lighthouseex.MainActivity}" drawable="google_play_store" name="Google Play Store" />
+  <item component="ComponentInfo{com.microsoft.emmx/com.google.android.apps.chrome.Main}" drawable="microsoft_edge" name="Microsoft Edge" />
 </resources>

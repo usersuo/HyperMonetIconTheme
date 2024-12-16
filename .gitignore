@@ -1,6 +1,7 @@
 lawnicons-develop/
 templates/icons_template/res/drawable-xxhdpi/*
 output/
+test/svg1
 
 __pycache__/
 *.py[cod]
