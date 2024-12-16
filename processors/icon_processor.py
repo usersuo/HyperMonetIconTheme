@@ -10,6 +10,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from PIL import Image, ImageColor
 from cairosvg import svg2png
 
+
 # 图标处理器
 class IconProcessor:
     # 线程锁
