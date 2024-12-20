@@ -1,27 +1,27 @@
-from processors.mapping_processor import MappingProcessor
-from processors.fill_icon_processor import FillIconProcessor
-from processors.fill_shortcut_processor import FillShortcutProcessor
 from processors.cleaner import Cleaner
 from processors.theme_packer import ThemePacker
 from processors.usage_counter import UsageCounter
+from processors.mapping_processor import MappingProcessor
+from processors.fill_icon_processor import FillIconProcessor
+from processors.fill_shortcut_processor import FillShortcutProcessor
 
 from configs.config import (
     ApiConfig,
     IconConfig,
+    CleanConfig,
     FillIconConfig,
     PerformanceConfig,
     ArtifactPathConfig,
     LawniconsPathConfig,
-    CleanConfig,
 )
 
 
-def main(test_env: bool):
+def build_filled(test_env: bool):
     print("test_env: ", test_env)
-    
+
     # 运行前统计
     UsageCounter.request_hits(ApiConfig.api_url_used, ApiConfig.api_headers)
-    
+
     # 清理临时文件
     print("(1/6) Cleaner: 运行前清理")
     Cleaner.cleanup(CleanConfig.clean_up)
@@ -67,7 +67,7 @@ def main(test_env: bool):
         PerformanceConfig.background_cache_size,
     )
 
-    # 打包icons
+    # 打包icons资源
     print("\n(5/6) ThemePacker: 打包")
     ThemePacker.pack_icons_zip(
         str(ArtifactPathConfig.output_dir),
@@ -104,4 +104,4 @@ def main(test_env: bool):
 
 
 if __name__ == "__main__":
-    main(test_env=False) #是否使用测试目录
+    build_filled(test_env=False)  # 是否使用测试目录

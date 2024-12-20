@@ -1,24 +1,23 @@
+from processors.cleaner import Cleaner
+from processors.theme_packer import ThemePacker
+from processors.usage_counter import UsageCounter
+from processors.icon_processor import IconProcessor
 from processors.mapping_processor import MappingProcessor
 from processors.shortcut_processor import ShortcutProcessor
-from processors.icon_processor import IconProcessor
-from processors.theme_packer import ThemePacker
-
-from processors.cleaner import Cleaner
-from processors.usage_counter import UsageCounter
 
 from configs.config import (
     ApiConfig,
     IconConfig,
-    LawniconsPathConfig,
+    CleanConfig,
     PerformanceConfig,
     ArtifactPathConfig,
-    CleanConfig,
+    LawniconsPathConfig,
 )
 
 
-def main(test_env: bool):
+def build_outlined(test_env: bool):
     print("test_env: ", test_env)
-    
+
     # 运行前统计
     UsageCounter.request_hits(ApiConfig.api_url_used, ApiConfig.api_headers)
 
@@ -94,4 +93,4 @@ def main(test_env: bool):
 
 
 if __name__ == "__main__":
-    main(test_env=False)  # 是否使用测试目录
+    build_outlined(test_env=False)  # 是否使用测试目录

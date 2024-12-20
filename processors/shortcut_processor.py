@@ -1,6 +1,8 @@
+import shutil
+
 from PIL import Image, ImageColor
 from pathlib import Path
-import shutil
+
 from processors.icon_processor import IconProcessor
 
 

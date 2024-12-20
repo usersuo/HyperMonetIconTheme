@@ -11,21 +11,21 @@
       - drawable: svg图标的文件名(不含.svg后缀)，必须是 lawnicons-develop/svgs 目录中已存在的图标
 
     4. 示例:
-      想要将未适配的"某应用"(包名: com.example.app)使用"电话"图标显示:
-      在下方添加:
-        <item name="example" package="com.example.app" drawable="dialer" />
-      将合入到icon_mapper.xml中
+      A. 想要将未适配的"某应用"(包名: com.example.app)使用"电话"图标显示:
+        在下方添加:
+          <item name="example" package="com.example.app" drawable="dialer" />
+        将合入到生成的icon_mapper.xml中
 
-      想要修改已适配的"Google Chrome Canary"(包名: com.chrome.canary)的图标替换为"Google Chrome"的图标:
-      在下方添加:
-        <item name="Chrome Canary" package="com.chrome.canary" drawable="google_chrome" />
-      将替换icon_mapper.xml原有的映射
-        <item name="Chrome Canary" package="com.chrome.canary" drawable="google_chrome_canary" />
+      B. 想要修改已适配的"Google Chrome Canary"(包名: com.chrome.canary)的图标替换为"Google Chrome"的图标:
+        在下方添加:
+          <item name="Chrome Canary" package="com.chrome.canary" drawable="google_chrome" />
+        将替换icon_mapper.xml原有的映射
+          <item name="Chrome Canary" package="com.chrome.canary" drawable="google_chrome_canary" />
 
     5. 注意:
-      - 此文件中的映射会覆盖原有的 icon_mapper.xml 中的映射
       - 一个包名只能映射到一个图标
       - drawable 必须使用已存在的图标名称
+      - 请不要删除 <item name="TwelveKeyDialer" package="com.android.contacts.activities.TwelveKeyDialer" drawable="dialer" />，否则电话图标将不生效
 -->
 
 <resources>
@@ -37,6 +37,6 @@
   <item name="CallLogProvider" package="com.android.providers.contacts.CallLogProvider" drawable="dialer" />
 
   <!-- 其他 -->
-  
+  <!-- <item name="" package="" drawable="" /> -->
 </resources>
 

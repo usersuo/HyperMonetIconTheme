@@ -8,38 +8,54 @@
 
 一个让 HyperOS 通过 Magisk 模块支持 Material You Monet 风格图标的 Python 脚本。
 
-本项目通过移植转换并着色 [Lawnicons](https://github.com/LawnchairLauncher/lawnicons) 的SVG图标资源，为缺乏 Material You 图标着色支持且不能使用三方图标包的 HyperOS 提供了优雅的 Monet 风格图标支持，效果优于各类莫奈图标主题。
+本项目通过移植转换并着色 [Lawnicons](https://github.com/LawnchairLauncher/lawnicons) 的SVG图标资源到 HyperOS 规范的 PNG 分层图标资源，为缺乏完整 Material You 图标着色支持且无法使用三方图标包的 HyperOS 提供了优雅的 Monet 风格图标支持。
 
 主要特点：
 
 - 通过 Magisk 模块安装
-- 完整移植 Lawnicons 的 7000+ 个高质量单色图标，支持大量国内外应用
-- 保持 HyperOS 原生的连续曲率圆角设计
-- 支持自定义图标前景色和背景色
-- 支持自定义图标映射
+- 兼容 HyperOS 1 & 2
+- 完整移植 [Lawnicons](https://github.com/LawnchairLauncher/lawnicons) 图标包的 7400+ 个高质量svg图标，上游图标库更新频繁，国内外应用支持度高
+- 包含线条和填充两种样式 (Outlined & Filled)
+- 保持 HyperOS 图标原生的连续曲率圆角矩形
+- 支持配置图标前景色和背景色
+- 支持配置图标映射
 - 支持一键锁屏快捷方式
-- 支持 Github Action 云端快速构建
+- 支持 Github Action 云端自动化构建打包 Magisk 模块，无需配置本地环境
 
 
->[!IMPORTANT]  
+>[!IMPORTANT]   
 > 需要 root 权限
 
-如果觉得还不错，欢迎点个Star 🌟
+如果觉得还不错，欢迎给本项目和 Lawnicons 点个Star 🌟
 
 <br/>
 
 ## 🥳 使用效果
-Xiaomi13 | HyperOS2 | Android15 | Kitsune Mask 27001
+Xiaomi 13 | HyperOS 2 (CN) | Android 15 | Kitsune Mask 27001
+
+### 1. Outlined 线条
+
+保持 Lawnicons 的原始样式，不进行任何修改
 
 <img src="./images/d39348bc8ee24233615761b853a9b1a.jpg" alt="蓝色" width="400">
 
 <br/>
+
 <img src="./images/48fa62b6f0e28f4fb758176fe868fef.jpg" alt="红色" width="400">
 
 <br/>
+
 <img src="./images/6a62b89ff05ca2ce82e03d66f6254d1.jpg" alt="绿色" width="400">
 
 <br/>
+
+
+### 2. Filled 填充
+
+灵感来源于 Niagara Launcher 的 [Anycon - Material](https://help.niagaralauncher.app/article/149-anycons) 样式
+
+在 Outlined 样式的基础之上新增了对图标封闭区域的推断和填充，无封闭区域的图标保持 Outlined
+
 
 ## 🛠️ 工作原理
 

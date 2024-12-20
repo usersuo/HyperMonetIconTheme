@@ -54,7 +54,6 @@ jobs:
       - name: Prepare environment
         run: |
           pip install -r requirements.txt
-          pip install opencv-python-headless
 
       - name: Build with Python
         env:

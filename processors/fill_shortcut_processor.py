@@ -1,6 +1,7 @@
+import shutil
+
 from PIL import Image, ImageColor, ImageFilter, ImageDraw
 from pathlib import Path
-import shutil
 
 from processors.icon_processor import IconProcessor
 
@@ -39,7 +40,9 @@ class FillShortcutProcessor:
         ss_scale = icon_scale
 
         # 超采样线条
-        line_icon = IconProcessor.process_svg(str(svg_path), fg_color, ss_size, ss_scale)
+        line_icon = IconProcessor.process_svg(
+            str(svg_path), fg_color, ss_size, ss_scale
+        )
         if not line_icon:
             print("    (err) 处理锁屏图标失败")
             return
@@ -55,8 +58,14 @@ class FillShortcutProcessor:
         # 填充点选择
         width, height = binary_mask.size
         start_points = [
-            (0, 0), (width-1, 0), (0, height-1), (width-1, height-1),  # 四角
-            (width//2, 0), (width//2, height-1), (0, height//2), (width-1, height//2),  # 边中点
+            (0, 0),
+            (width - 1, 0),
+            (0, height - 1),
+            (width - 1, height - 1),  # 四角
+            (width // 2, 0),
+            (width // 2, height - 1),
+            (0, height // 2),
+            (width - 1, height // 2),  # 边中点
         ]
 
         # 填充处理
@@ -103,5 +112,8 @@ class FillShortcutProcessor:
 
         # 复制其他图标
         for file in template_mod_icons.glob("*.png"):
-            if file.name != "icon_folder.png" and file.name != "status_bar_toggle_lock.png":
-                shutil.copy2(file, drawable_dir / file.name) 
+            if (
+                file.name != "icon_folder.png"
+                and file.name != "status_bar_toggle_lock.png"
+            ):
+                shutil.copy2(file, drawable_dir / file.name)

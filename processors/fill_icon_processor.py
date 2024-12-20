@@ -5,13 +5,6 @@ import hashlib
 import numpy as np
 import time
 
-from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
-from PIL import Image, ImageColor, ImageDraw, ImageFilter
-
-from processors.icon_processor import IconProcessor
-from configs.config import PerformanceConfig
-
 try:
     import cv2
 
@@ -19,7 +12,14 @@ try:
     print("OpenCV: 已启用 OpenCV 优化")
 except:
     USE_CV = False
-    print("OpenCV: 未检测到 OpenCV, 使用原始处理方式")
+    print("OpenCV: 未找到 OpenCV")
+
+from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
+from PIL import Image, ImageColor, ImageDraw, ImageFilter
+
+from processors.icon_processor import IconProcessor
+from configs.config import PerformanceConfig
 
 
 # 填充图标处理器
@@ -156,6 +156,7 @@ class FillIconProcessor:
         ss_scale = icon_scale
 
         line_icon = cls.get_cached_svg(str(svg_path), fg_color, ss_size, ss_scale)
+
         if not line_icon:
             print(
                 f"    (err) FillIconProcessor.generate_icons: 处理线条失败 {drawable_name} ({package_name})"
@@ -165,7 +166,7 @@ class FillIconProcessor:
         fill_layer = Image.new("RGBA", line_icon.size, (0, 0, 0, 0))
         fill_color_rgba = ImageColor.getrgb(fill_color)
 
-        # OpenCV 优化的图像处理
+        # OpenCV 处理
         if USE_CV:
             cv_image = np.array(line_icon)
             cv_image = cv2.cvtColor(cv_image, cv2.COLOR_RGBA2BGR)
@@ -178,15 +179,14 @@ class FillIconProcessor:
 
             kernel = np.ones((3, 3), np.uint8)
             binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, kernel)
-
-            # 转回 PIL 格式
             binary_mask = Image.fromarray(binary_mask)
+
+        # 原始处理
         else:
-            # 原始处理方式
             smoothed = line_icon.filter(ImageFilter.GaussianBlur(0.8))
             binary_mask = smoothed.convert("L").point(lambda x: 255 if x > 20 else 0)
 
-        # 填充点选择
+        # 填充点
         width, height = binary_mask.size
         start_points = [
             (0, 0),
@@ -206,7 +206,6 @@ class FillIconProcessor:
                 (fill_array.shape[0] + 2, fill_array.shape[1] + 2), np.uint8
             )
 
-            # 处理填充点
             with ThreadPoolExecutor(max_workers=fill_workers) as executor:
                 futures = []
                 for x, y in start_points:
@@ -220,6 +219,7 @@ class FillIconProcessor:
 
             fill_array = np.where((fill_array != 128) & (fill_array != 255), 255, 0)
             fill_mask = Image.fromarray(fill_array.astype("uint8"))
+
         else:
             fill_mask = binary_mask.filter(ImageFilter.SMOOTH_MORE).point(
                 lambda x: 255 if x > 128 else 0
@@ -229,15 +229,14 @@ class FillIconProcessor:
 
         fill_pixels = fill_layer.load()
         mask_pixels = fill_mask.load()
+
         for y in range(height):
             for x in range(width):
                 if mask_pixels[x, y] == 255:
                     fill_pixels[x, y] = fill_color_rgba
 
         final_icon = Image.alpha_composite(fill_layer, line_icon)
-
         final_icon = final_icon.resize((icon_size, icon_size), Image.Resampling.LANCZOS)
-
         final_icon.save(icon_dir / "1.png", "PNG")
 
         count = cls.increment_counter()

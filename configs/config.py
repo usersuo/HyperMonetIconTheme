@@ -1,8 +1,10 @@
+import os
+import colorsys
+
 from dataclasses import dataclass
 from pathlib import Path
 from datetime import datetime
-import os
-import colorsys
+
 
 # 当前工作目录
 current_dir = Path.cwd()
@@ -11,7 +13,7 @@ current_dir = Path.cwd()
 # 性能调优配置
 # 预计处理图标数量：7400+
 # 普通样式图标：预计构建时间 5 分钟，预计打包大小 50 MB
-# 填充样式图标：预计构建时间 8 分钟，预计打包大小 110 MB
+# 填充样式图标：预计构建时间 10 分钟，预计打包大小 110 MB
 @dataclass
 class PerformanceConfig:
     # (全部样式生效) 线程配置，同时处理max_workers个图标
@@ -31,7 +33,7 @@ class PerformanceConfig:
     background_cache_size: int = 4
 
     # (仅填充样式生效) 超采样倍数，避免填充锯齿。越大越慢
-    supersampling_scale: float = 1.8
+    supersampling_scale: float = 1.5
 
 
 # 普通图标配置
