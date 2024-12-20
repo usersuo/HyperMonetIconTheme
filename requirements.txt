@@ -2,3 +2,4 @@ cairosvg
 pillow
 numpy
 opencv-python-headless
+lz4

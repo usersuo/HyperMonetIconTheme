@@ -20,6 +20,7 @@ from PIL import Image, ImageColor, ImageDraw, ImageFilter
 
 from processors.icon_processor import IconProcessor
 from configs.config import PerformanceConfig
+from processors.mask_cache_manager import MaskCacheManager
 
 
 # 填充图标处理器
@@ -57,7 +58,12 @@ class FillIconProcessor:
     # 处理进度
     @classmethod
     def update_progress(
-        cls, count: int, total: int, drawable_name: str, package_name: str
+        cls,
+        count: int,
+        total: int,
+        drawable_name: str,
+        package_name: str,
+        used_cache: bool = False,
     ):
         current_time = time.time()
 
@@ -76,23 +82,23 @@ class FillIconProcessor:
             remaining = (total - count) / speed if speed > 0 else 0
             percentage = (count / total) * 100
 
+            cache_status = "缓存" if used_cache else "计算"
             print(
-                f"\r    ({count}/{total}) {percentage:.1f}% "
-                f"[{speed:.1f}个/秒 | 平均{avg_speed:.1f}个/秒 | 预计剩余{remaining:.1f}秒] "
-                f"- {drawable_name} ({package_name})" + " " * 20,
-                end="",
-                flush=True,
+                f"      ({count}/{total}) {percentage:.1f}% "
+                f"| {cache_status} "
+                f"| [{speed:.1f}个/秒 | 平均{avg_speed:.1f}个/秒 | 预计剩余{remaining:.1f}秒] "
+                f"| {drawable_name} ({package_name})"
             )
 
             cls._last_update_time = current_time
             cls._last_count = count
         else:
             percentage = (count / total) * 100
+            cache_status = "缓存" if used_cache else "计算"
             print(
-                f"\r    ({count}/{total}) {percentage:.1f}% "
-                f"- {drawable_name} ({package_name})" + " " * 20,
-                end="",
-                flush=True,
+                f"      ({count}/{total}) {percentage:.1f}% "
+                f"| {cache_status} "
+                f"| {drawable_name} ({package_name})"
             )
 
     @classmethod
@@ -166,28 +172,46 @@ class FillIconProcessor:
         fill_layer = Image.new("RGBA", line_icon.size, (0, 0, 0, 0))
         fill_color_rgba = ImageColor.getrgb(fill_color)
 
-        # OpenCV 处理
-        if USE_CV:
-            cv_image = np.array(line_icon)
-            cv_image = cv2.cvtColor(cv_image, cv2.COLOR_RGBA2BGR)
+        # 获取缓存路径
+        cache_path = MaskCacheManager.get_cache_path(str(svg_path), ss_size)
 
-            smoothed = cv2.GaussianBlur(cv_image, (5, 5), 0.8)
+        # 尝试加载缓存
+        binary_mask = None
+        used_cache = False
+        if PerformanceConfig.enable_fill_mask_cache:
+            binary_mask = MaskCacheManager.load_mask(cache_path)
+            if binary_mask is not None:
+                used_cache = True
 
-            # 转换为灰度图并二值化
-            gray = cv2.cvtColor(smoothed, cv2.COLOR_BGR2GRAY)
-            binary_mask = cv2.threshold(gray, 20, 255, cv2.THRESH_BINARY)[1]
+        if binary_mask is None:
+            # OpenCV 处理
+            if USE_CV:
+                cv_image = np.array(line_icon)
+                cv_image = cv2.cvtColor(cv_image, cv2.COLOR_RGBA2BGR)
+                smoothed = cv2.GaussianBlur(cv_image, (5, 5), 0.8)
+                gray = cv2.cvtColor(smoothed, cv2.COLOR_BGR2GRAY)
+                binary_mask = cv2.threshold(gray, 20, 255, cv2.THRESH_BINARY)[1]
+                kernel = np.ones((3, 3), np.uint8)
+                binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, kernel)
 
-            kernel = np.ones((3, 3), np.uint8)
-            binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, kernel)
-            binary_mask = Image.fromarray(binary_mask)
+                # 保存缓存
+                if PerformanceConfig.enable_fill_mask_cache:
+                    MaskCacheManager.save_mask(binary_mask, cache_path)
 
-        # 原始处理
-        else:
-            smoothed = line_icon.filter(ImageFilter.GaussianBlur(0.8))
-            binary_mask = smoothed.convert("L").point(lambda x: 255 if x > 20 else 0)
+                binary_mask = Image.fromarray(binary_mask)
+            else:
+                # 原始处理
+                smoothed = line_icon.filter(ImageFilter.GaussianBlur(0.8))
+                binary_mask = smoothed.convert("L").point(
+                    lambda x: 255 if x > 20 else 0
+                )
 
         # 填充点
-        width, height = binary_mask.size
+        width, height = (
+            binary_mask.size
+            if isinstance(binary_mask, Image.Image)
+            else binary_mask.shape
+        )
         start_points = [
             (0, 0),
             (width - 1, 0),
@@ -201,6 +225,10 @@ class FillIconProcessor:
 
         # 填充处理
         if USE_CV:
+            # 确保binary_mask是numpy数组
+            if isinstance(binary_mask, Image.Image):
+                binary_mask = np.array(binary_mask)
+
             fill_array = np.array(binary_mask)
             mask = np.zeros(
                 (fill_array.shape[0] + 2, fill_array.shape[1] + 2), np.uint8
@@ -221,12 +249,17 @@ class FillIconProcessor:
             fill_mask = Image.fromarray(fill_array.astype("uint8"))
 
         else:
+            # 确保binary_mask是PIL Image
+            if not isinstance(binary_mask, Image.Image):
+                binary_mask = Image.fromarray(binary_mask)
+
             fill_mask = binary_mask.filter(ImageFilter.SMOOTH_MORE).point(
                 lambda x: 255 if x > 128 else 0
             )
             for x, y in start_points:
                 ImageDraw.floodfill(fill_mask, (x, y), 128)
 
+        # 应用填充
         fill_pixels = fill_layer.load()
         mask_pixels = fill_mask.load()
 
@@ -240,7 +273,7 @@ class FillIconProcessor:
         final_icon.save(icon_dir / "1.png", "PNG")
 
         count = cls.increment_counter()
-        cls.update_progress(count, total_icons, drawable_name, package_name)
+        cls.update_progress(count, total_icons, drawable_name, package_name, used_cache)
         return True
 
     # 处理全部图标
@@ -262,6 +295,7 @@ class FillIconProcessor:
         array_pool_size: int,
         fill_workers: int,
         background_cache_size: int,
+        enable_cache: bool,
     ) -> None:
         cls.processed_count = 0
         cls._start_time = 0.0
@@ -287,7 +321,7 @@ class FillIconProcessor:
 
         total_icons = len(mapper)
         print(
-            f"  (3/4) FillIconProcessor.generate_icons: 找到 {total_icons} 个图标需要理，当前并行线程数 {max_workers}"
+            f"  (3/4) FillIconProcessor.generate_icons: 找到 {total_icons} 个图标需要处理，当前线程数 {max_workers}"
         )
 
         batch_size = batch_size_cv if USE_CV else batch_size_normal
@@ -295,6 +329,11 @@ class FillIconProcessor:
         arrays = [cls.get_array((icon_size, icon_size)) for _ in range(batch_size)]
 
         successful = 0
+
+        # 在处理开始前解压缓存并加载缓存信息
+        if enable_cache:
+            MaskCacheManager.extract_cache_archive()
+            MaskCacheManager.load_cache_info()
 
         try:
             for i in range(0, total_icons, batch_size):
@@ -333,5 +372,10 @@ class FillIconProcessor:
                 cls.release_array(arr)
 
         print(
-            f"\n  (4/4) FillIconProcessor.generate_icons: 图标处理完成，成功处理 {successful}/{total_icons}"
+            f"  (4/4) FillIconProcessor.generate_icons: 图标处理完成，成功处理 {successful}/{total_icons}"
         )
+
+        # 在处理结束后保存缓存信息并打包
+        if enable_cache:
+            MaskCacheManager.save_cache_info()
+            MaskCacheManager.pack_cache_files()

@@ -1,3 +1,5 @@
+import time
+
 from processors.cleaner import Cleaner
 from processors.theme_packer import ThemePacker
 from processors.usage_counter import UsageCounter
@@ -18,9 +20,12 @@ from configs.config import (
 
 def build_filled(test_env: bool):
     print("test_env: ", test_env)
-
+    
     # 运行前统计
-    UsageCounter.request_hits(ApiConfig.api_url_used, ApiConfig.api_headers)
+    # UsageCounter.request_hits(ApiConfig.api_url_used, ApiConfig.api_headers)
+    
+    # 开始时间
+    start_time = time.time()
 
     # 清理临时文件
     print("(1/6) Cleaner: 运行前清理")
@@ -65,6 +70,7 @@ def build_filled(test_env: bool):
         PerformanceConfig.array_pool_size,
         PerformanceConfig.fill_workers,
         PerformanceConfig.background_cache_size,
+        PerformanceConfig.enable_fill_mask_cache
     )
 
     # 打包icons资源
@@ -99,8 +105,14 @@ def build_filled(test_env: bool):
     print("\n处理完成, 工件已保存至当前目录")
     print("刷入后请重启设备")
 
+    # 总耗时
+    total_time = time.time() - start_time
+    minutes = int(total_time // 60)
+    seconds = total_time % 60
+    print(f"\n运行总耗时: {minutes}分{seconds:.1f}秒")
+
     # 运行后统计
-    UsageCounter.request_hits(ApiConfig.api_url_succeed, ApiConfig.api_headers)
+    # UsageCounter.request_hits(ApiConfig.api_url_succeed, ApiConfig.api_headers)
 
 
 if __name__ == "__main__":

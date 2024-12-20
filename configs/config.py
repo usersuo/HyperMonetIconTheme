@@ -35,6 +35,12 @@ class PerformanceConfig:
     # (仅填充样式生效) 超采样倍数，避免填充锯齿。越大越慢
     supersampling_scale: float = 1.5
 
+    # 填充区域缓存配置
+    fill_mask_cache_dir: Path = current_dir / ".cache" / "fill_masks"  # 临时缓存目录
+    fill_mask_cache_info: Path = current_dir / "cached_masks_info.json"  # 移到根目录
+    fill_mask_cache_archive: Path = current_dir / "cached_masks.tar.lz4"  # 直接放在根目录
+    enable_fill_mask_cache: bool = True  # 是否启用缓存
+
 
 # 普通图标配置
 @dataclass
@@ -191,6 +197,7 @@ class CleanConfig:
         current_dir / "processors" / "__pycache__",
         current_dir / "configs" / "__pycache__",
         current_dir / ".cache",
+        current_dir / ".cache" / "fill_masks",  # 添加填充区域缓存清理
     ]
 
 
