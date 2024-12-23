@@ -9,7 +9,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image, ImageColor, ImageDraw, ImageFilter
 
-from processors.icon_processor import IconProcessor
+from processors.outline_icon_processor import IconProcessor
 from configs.config import PerformanceConfig
 
 try:

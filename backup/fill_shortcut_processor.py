@@ -2,7 +2,7 @@ from PIL import Image, ImageColor, ImageFilter, ImageDraw
 from pathlib import Path
 import shutil
 
-from processors.icon_processor import IconProcessor
+from processors.outline_icon_processor import IconProcessor
 
 
 # 填充样式快捷方式处理器

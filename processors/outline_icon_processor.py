@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 from io import BytesIO
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Dict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from PIL import Image, ImageColor
@@ -12,24 +12,45 @@ from cairosvg import svg2png
 
 
 # 图标处理器
-class IconProcessor:
-    # 线程锁
-    counter_lock = threading.Lock()
+class OutlineIconProcessor:
+    """基础图标处理器
 
-    # 处理计数
+    用于生成Outlined风格图标：
+    1. 背景生成
+    2. SVG转换为PNG
+    3. 前景色替换
+    4. 尺寸缩放
+    5. 图标映射解析
+    6. 多线程支持
+    """
+
+    # 线程锁和计数器
+    counter_lock = threading.Lock()
     processed_count = 0
 
     @classmethod
     def increment_counter(cls) -> int:
+        """增加处理计数
+
+        Returns:
+            int: 当前处理数量
+        """
         with cls.counter_lock:
             cls.processed_count += 1
             return cls.processed_count
 
-    # 处理进度
     @classmethod
     def update_progress(
         cls, count: int, total: int, drawable_name: str, package_name: str
     ):
+        """处理进度显示
+
+        Args:
+            count: 当前处理数量
+            total: 总图标数量
+            drawable_name: 图标名称
+            package_name: 包名
+        """
         with cls.counter_lock:
             percentage = (count / total) * 100
             print(
@@ -39,14 +60,34 @@ class IconProcessor:
                 flush=True,
             )
 
-    # 创建bg_color的纯色背景 0.png
+    @staticmethod
     def create_background(icon_size: int, color: str) -> Image.Image:
+        """创建纯色背景图层
+
+        Args:
+            icon_size: 图标尺寸
+            color: 背景颜色
+
+        Returns:
+            Image.Image: 创建的背景图层
+        """
         return Image.new("RGBA", (icon_size, icon_size), color)
 
-    # svg2png，着色fg_color
+    @classmethod
     def process_svg(
-        svg_path: str, fg_color: str, icon_size: int, icon_scale: float
+        cls, svg_path: str, fg_color: str, icon_size: int, icon_scale: float
     ) -> Image.Image:
+        """处理单个SVG文件
+
+        Args:
+            svg_path: SVG文件路径
+            fg_color: 前景色（线条颜色）
+            icon_size: 目标尺寸
+            icon_scale: 缩放比例
+
+        Returns:
+            Image.Image: 处理后的PNG图像
+        """
 
         # 缩放后实际大小
         icon_actual_size = int(icon_size * icon_scale)
@@ -91,9 +132,17 @@ class IconProcessor:
         return final_icon
 
     # 解析icon_mapper映射
-    @staticmethod
-    def parse_icon_mapper(xml_path: str) -> Dict[str, str]:
-        print(f"  (1/4) IconProcessor.parse_icon_mapper: 找到并解析 icon_mapper")
+    @classmethod
+    def parse_icon_mapper(cls, xml_path: str) -> Dict[str, str]:
+        """解析图标映射文件
+
+        Args:
+            xml_path: 映射文件路径
+
+        Returns:
+            Dict[str, str]: {包名: 图标名} 的映射字典
+        """
+        print(f"  (1/4) OutlineIconProcessor.parse_icon_mapper: 找到并解析 icon_mapper")
         tree = ET.parse(xml_path)
         root = tree.getroot()
         return {
@@ -102,7 +151,6 @@ class IconProcessor:
             if item.get("package") and item.get("drawable")
         }
 
-    # 处理单个图标
     @classmethod
     def process_single_icon(
         cls,
@@ -116,12 +164,27 @@ class IconProcessor:
         icon_scale: float,
         total_icons: int,
     ) -> bool:
+        """处理单个图标
 
+        Args:
+            package_name: 应用包名
+            drawable_name: 图标资源名
+            svg_dir: SVG目录
+            output_dir: 输出目录
+            background: 背景图层
+            fg_color: 前景色
+            icon_size: 图标尺寸
+            icon_scale: 图标缩放比例
+            total_icons: 总图标数
+
+        Returns:
+            bool: 处理成功返回True
+        """
         svg_path = svg_dir / f"{drawable_name}.svg"
 
         if not svg_path.exists():
             print(
-                f"    (err) IconProcessor.generate_icons: 未找到对应svg文件 {drawable_name} ({package_name})"
+                f"    (err) OutlineIconProcessor.generate_icons: 未找到对应svg文件 {drawable_name} ({package_name})"
             )
             return False
 
@@ -140,11 +203,10 @@ class IconProcessor:
             return True
         else:
             print(
-                f"    (err) IconProcessor.generate_icons: 失败 {drawable_name} ({package_name})"
+                f"    (err) OutlineIconProcessor.generate_icons: 失败 {drawable_name} ({package_name})"
             )
             return False
 
-    # 处理全部图标
     @classmethod
     def generate_icons(
         cls,
@@ -155,9 +217,20 @@ class IconProcessor:
         bg_color: str,
         icon_size: int,
         icon_scale: float,
-        max_workers: int = None,
+        max_workers: int,
     ) -> None:
+        """批量生成轮廓风格图标
 
+        Args:
+            icon_mapper_path: 图标映射文件路径
+            svg_dir: SVG源文件目录
+            output_dir: 输出目录
+            fg_color: 前景色
+            bg_color: 背景色
+            icon_size: 图标尺寸
+            icon_scale: 图标缩放比例
+            max_workers: 最大工作线程数
+        """
         cls.processed_count = 0
 
         output_path = Path(output_dir)
@@ -167,21 +240,20 @@ class IconProcessor:
         # 解析icon_mapper
         mapper = cls.parse_icon_mapper(icon_mapper_path)
 
-        # 背景仅创建一次，所有图标共用
-        print(f"  (2/4) IconProcessor.generate_icons: 创建 {bg_color} 背景")
+        # 创建背景
+        print(f"  (2/4) OutlineIconProcessor.generate_icons: 创建 {bg_color} 背景")
         background = cls.create_background(icon_size, bg_color)
 
-        # 线程数
-        if max_workers is None:
-            max_workers = min(128, (os.cpu_count() or 1) * 4)
+        # # 设置线程数
+        # if max_workers is None:
+        #     max_workers = min(128, (os.cpu_count() or 1) * 4)
 
-        # 图标总数
         total_icons = len(mapper)
         print(
-            f"  (3/4) IconProcessor.generate_icons: 找到 {total_icons} 个图标需要处理，当前并行线程数 {max_workers} ，大约需要 5 分钟"
+            f"  (3/4) OutlineIconProcessor.generate_icons: 找到 {total_icons} 个图标需要处理，当前并行线程数 {max_workers} ，大约需要 5 分钟"
         )
 
-        # 多线程处理图标
+        # 多线程处理
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             future_to_package = {
                 executor.submit(
@@ -200,7 +272,6 @@ class IconProcessor:
             }
 
             successful = 0
-
             for future in as_completed(future_to_package):
                 package_name = future_to_package[future]
                 try:
@@ -208,9 +279,9 @@ class IconProcessor:
                         successful += 1
                 except Exception as e:
                     print(
-                        f"    (err) IconProcessor.generate_icons: 处理 {package_name} 时发生错误: {e}"
+                        f"    (err) OutlineIconProcessor.generate_icons: 处理 {package_name} 时发生错误: {e}"
                     )
 
         print(
-            f"\n  (4/4) IconProcessor.generate_icons: 图标处理完成，成功处理 {successful}/{total_icons}"
+            f"\n  (4/4) OutlineIconProcessor.generate_icons: 图标处理完成，成功处理 {successful}/{total_icons}"
         )

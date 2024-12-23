@@ -22,8 +22,13 @@ on:
         required: true
         default: '#a1cafe'
         type: string
+      fill_color:
+        description: '填充色FILL_COLOR (可选，留空则根据上述颜色自动推断)'
+        required: false
+        default: ''
+        type: string
       theme_name:
-        description: '颜色名称，将包含在输出文件名中 (可选，例如: light_blue)'
+        description: '颜色名称 (可选，例如: light_blue，用于打包文件名显示)'
         required: false
         default: ''
         type: string
@@ -59,6 +64,7 @@ jobs:
         env:
           FG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.fg_color || '#003a71' }}
           BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#a1cafe' }}
+          FILL_COLOR: ${{ inputs.fill_color }}
           THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
         run: |
           sed -i "s/^    fg_color: str = \".*\"/    fg_color: str = \"$FG_COLOR\"/" configs/config.py
