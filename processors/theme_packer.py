@@ -5,16 +5,31 @@ import zipfile
 from pathlib import Path
 
 
-# 打包器
 class ThemePacker:
-    # 复制图标到icons模板并打包
-    @staticmethod
+    """主题打包器
+
+    用于打包图标主题资源：
+    1. 打包图标资源
+    2. 生成Magisk模块
+    # 3. 生成MTZ主题包
+    """
+
+    @classmethod
     def pack_icons_zip(
+        cls,
         output_dir: str,
         icons_template_dir: str,
-        mtz_template_dir=str,
-        magisk_template_dir=str,
-    ):
+        mtz_template_dir: str,
+        magisk_template_dir: str,
+    ) -> None:
+        """打包图标资源为zip
+
+        Args:
+            output_dir: 图标输出目录
+            icons_template_dir: 图标模板目录
+            mtz_template_dir: MTZ模板目录
+            magisk_template_dir: Magisk模板目录
+        """
         icons_template_drawable_dir = (
             Path(icons_template_dir) / "res" / "drawable-xxhdpi"
         )
@@ -51,14 +66,22 @@ class ThemePacker:
         shutil.copy(final_icons, mtz_template_dir)
         shutil.copy(final_icons, magisk_template_dir)
 
-    # 打包 magisk 模块
-    @staticmethod
+    @classmethod
     def pack_magisk_module(
+        cls,
         magisk_template_dir: str,
         target_magisk_pattern: str,
         timestamp: str,
         theme_suffix: str,
-    ):
+    ) -> None:
+        """打包Magisk模块
+
+        Args:
+            magisk_template_dir: Magisk模板目录
+            target_magisk_pattern: 目标文件名模式
+            timestamp: 时间戳
+            theme_suffix: 主题名称后缀
+        """
         # print(
         #     "  (4/7) ThemePacker.pack_magisk_module: 正在使用 zipfile 封装 magisk_template_HyperOS2"
         # )
@@ -85,14 +108,22 @@ class ThemePacker:
             f"  (5/5) ThemePacker.pack_magisk_module: magisk 模块已生成({target_magisk})"
         )
 
-    # 打包 mtz
-    @staticmethod
+    @classmethod
     def pack_mtz(
+        cls,
         mtz_template_dir: str,
         target_mtz_pattern: str,
         timestamp: str,
         theme_suffix: str,
-    ):
+    ) -> None:
+        """打包MTZ主题包
+
+        Args:
+            mtz_template_dir: MTZ模板目录
+            target_pattern: 目标文件名模式
+            timestamp: 时间戳
+            theme_suffix: 主题名称后缀
+        """
         print(
             "  (6/7) ThemePacker.pack_mtz: 正在使用 zipfile 封装 mtz_template_HyperOS2"
         )

@@ -1,15 +1,23 @@
 import shutil
 
-from PIL import Image, ImageColor
+from PIL import Image
 from pathlib import Path
 
-from processors.icon_processor import IconProcessor
+from processors.outline_icon_processor import OutlineIconProcessor
 
 
-# 快捷方式处理器
-class ShortcutProcessor:
-    @staticmethod
+class OutlinedShortcutProcessor:
+    """Outlined风格快捷方式处理器
+
+    用于生成Outlined风格的锁屏快捷方式图标
+    1. 单层PNG输出
+    2. 圆角蒙版
+    3. 不使用多线程
+    """
+
+    @classmethod
     def process_lock_shortcut(
+        cls,
         svg_dir: str,
         icons_template_dir: str,
         fg_color: str,
@@ -17,6 +25,16 @@ class ShortcutProcessor:
         icon_size: int,
         icon_scale: float,
     ) -> None:
+        """处理锁屏快捷方式图标
+
+        Args:
+            svg_dir: SVG源文件目录
+            icons_template_dir: 图标模板目录
+            fg_color: 前景色
+            bg_color: 背景色
+            icon_size: 图标尺寸
+            icon_scale: 图标缩放比例
+        """
         print("  (1/1) 处理一键锁屏快捷方式")
 
         # 连续曲率圆角背景蒙版
@@ -24,7 +42,7 @@ class ShortcutProcessor:
 
         drawable_dir = Path(icons_template_dir) / "res/drawable-xxhdpi"
 
-        # 锁图标，使用volumelockr
+        # 锁图标，使用volumelockr图标
         svg_path = Path(svg_dir) / "volumelockr.svg"
 
         drawable_dir.mkdir(parents=True, exist_ok=True)
@@ -35,7 +53,7 @@ class ShortcutProcessor:
 
         background = Image.new("RGBA", (icon_size, icon_size), bg_color)
 
-        icon = IconProcessor.process_svg(str(svg_path), fg_color, icon_size, icon_scale)
+        icon = OutlineIconProcessor.process_svg(str(svg_path), fg_color, icon_size, icon_scale)
 
         if not icon:
             print("    (err) 处理锁屏图标失败")

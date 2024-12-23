@@ -2,6 +2,13 @@ lawnicons-develop/
 templates/icons_template/res/drawable-xxhdpi/*
 output/
 test/svg1
+.cache/
+*.pyc
+clean.py
+
+# 确保这些文件被追踪
+!cache_info.json
+!cached_masks.tar.lz4
 
 __pycache__/
 *.py[cod]
@@ -36,3 +43,6 @@ env/
 
 .DS_Store
 Thumbs.db 
+
+
+

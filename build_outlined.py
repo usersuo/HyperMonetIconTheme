@@ -1,9 +1,9 @@
 from processors.cleaner import Cleaner
 from processors.theme_packer import ThemePacker
 from processors.usage_counter import UsageCounter
-from processors.icon_processor import IconProcessor
 from processors.mapping_processor import MappingProcessor
-from processors.shortcut_processor import ShortcutProcessor
+from processors.outline_icon_processor import OutlineIconProcessor
+from processors.outline_shortcut_processor import OutlinedShortcutProcessor
 
 from configs.config import (
     ApiConfig,
@@ -16,6 +16,16 @@ from configs.config import (
 
 
 def build_outlined(test_env: bool):
+    """构建Outlined风格图标主题
+
+    Args:
+        test_env: 是否使用测试环境
+            True: 使用test/目录下的测试文件
+            False: 使用lawnicons-develop/的完整文件
+
+    工件输出:
+        - ./magisk_HyperMonetIcon_outlined_{theme_name}_{timestamp}.zip
+    """
     print("test_env: ", test_env)
 
     # 运行前统计
@@ -33,8 +43,8 @@ def build_outlined(test_env: bool):
         str(ArtifactPathConfig.icon_mapper_alt),
     )
 
-    print("\n(3/6) IconProcessor: 处理快捷方式图标")
-    ShortcutProcessor.process_lock_shortcut(
+    print("\n(3/6) OutlineIconProcessor: 处理快捷方式图标")
+    OutlinedShortcutProcessor.process_lock_shortcut(
         str(LawniconsPathConfig.get_svg_dir(test_env)),
         str(ArtifactPathConfig.icons_template_dir),
         IconConfig.fg_color,
@@ -44,8 +54,8 @@ def build_outlined(test_env: bool):
     )
 
     # 处理图标
-    print("\n(4/6) IconProcessor: 处理图标")
-    IconProcessor.generate_icons(
+    print("\n(4/6) OutlineIconProcessor: 处理图标")
+    OutlineIconProcessor.generate_icons(
         str(ArtifactPathConfig.icon_mapper),
         str(LawniconsPathConfig.get_svg_dir(test_env)),
         str(ArtifactPathConfig.output_dir),
@@ -73,10 +83,10 @@ def build_outlined(test_env: bool):
         ArtifactPathConfig.theme_suffix,
     )
 
-    # 打包mtz
+    # # 打包mtz
     # ThemePacker.pack_mtz(
     #     str(ArtifactPathConfig.mtz_template_dir),
-    #     ArtifactPathConfig.target_mtz_pattern,
+    #     ArtifactPathConfig.target_mtz_pattern_outlined,
     #     ArtifactPathConfig.timestamp,
     #     ArtifactPathConfig.theme_suffix,
     # )

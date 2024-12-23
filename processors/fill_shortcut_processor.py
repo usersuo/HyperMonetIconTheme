@@ -3,13 +3,22 @@ import shutil
 from PIL import Image, ImageColor, ImageFilter, ImageDraw
 from pathlib import Path
 
-from processors.icon_processor import IconProcessor
+from processors.outline_icon_processor import OutlineIconProcessor
 
 
 # 填充样式快捷方式处理器
 class FillShortcutProcessor:
-    @staticmethod
+    """Fill风格的锁屏快捷方式图标处理器
+
+    1. 单层PNG输出
+    2. 使用圆角蒙版
+    3. 使用超采样
+    4. 不使用多线程
+    """
+
+    @classmethod
     def process_lock_shortcut(
+        cls,
         svg_dir: str,
         icons_template_dir: str,
         fg_color: str,
@@ -19,6 +28,19 @@ class FillShortcutProcessor:
         icon_scale: float,
         supersampling_scale: float,
     ) -> None:
+        """处理锁屏快捷方式图标
+
+        Args:
+            svg_dir: SVG源文件目录
+            icons_template_dir: 图标模板目录
+            fg_color: 前景色
+            bg_color: 背景色
+            fill_color: 填充色
+            icon_size: 图标尺寸
+            icon_scale: 图标缩放比例
+            supersampling_scale: 超采样比例
+        """
+
         print("  (1/1) 处理填充样式一键锁屏快捷方式")
 
         # 连续曲率圆角背景蒙版
@@ -40,7 +62,7 @@ class FillShortcutProcessor:
         ss_scale = icon_scale
 
         # 超采样线条
-        line_icon = IconProcessor.process_svg(
+        line_icon = OutlineIconProcessor.process_svg(
             str(svg_path), fg_color, ss_size, ss_scale
         )
         if not line_icon:
@@ -55,7 +77,7 @@ class FillShortcutProcessor:
         smoothed = line_icon.filter(ImageFilter.GaussianBlur(0.8))
         binary_mask = smoothed.convert("L").point(lambda x: 255 if x > 20 else 0)
 
-        # 填充点选择
+        # 填充点
         width, height = binary_mask.size
         start_points = [
             (0, 0),

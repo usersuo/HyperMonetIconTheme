@@ -4,23 +4,48 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
-# 映射处理器
 class MappingProcessor:
-    # 提取原始Appfilter中ComponentInfo的包名
-    @staticmethod
-    def parse_component_info(component: str) -> str:
+    """图标映射处理器
+
+    用于处理图标映射关系：
+    1. 解析appfilter.xml
+    2.
+    2. 合并icon_mapper_alt自定义映射
+    3. 生成最终icon_mapper映射
+    """
+
+    @classmethod
+    def parse_component_info(cls, component: str) -> str:
+        """从appfilter.xml的ComponentInfo串提取包名
+
+        Args:
+            component: ComponentInfo字符串: "ComponentInfo{package/activity}"
+        Returns:
+            str: 包名，失败返回空字符串
+        Examples:
+            parse_component_info("ComponentInfo{com.android.vending/activity}")
+                Returns "com.android.vending"
+        """
         match = re.match(r"ComponentInfo\{([^/]+)/.*?\}", component)
         if match:
             return match.group(1)
         return ""
 
-    # 去重并生成icon_mapper
-    @staticmethod
+    @classmethod
     def convert_icon_mapper(
+        cls,
         appfilter_input_path: str,
         icon_mapper_output_path: str,
         icon_mapper_alt_path: str,
     ) -> None:
+        """去重appfilter.xml, 合并icon_mapper_alt, 生成icon_mapper
+
+        Args:
+            appfilter_path: 原始appfilter.xml路径
+            icon_mapper_path: 输出的映射文件路径
+            icon_mapper_alt_path: 自定义映射文件路径
+        """
+
         appfilter = Path(appfilter_input_path)
         icon_mapper_output = Path(icon_mapper_output_path)
         icon_mapper_alt = Path(icon_mapper_alt_path)
@@ -42,7 +67,7 @@ class MappingProcessor:
             drawable = item.get("drawable", "")
 
             if component and drawable:
-                package = MappingProcessor.parse_component_info(component)
+                package = cls.parse_component_info(component)
                 if package:
                     unique_packages[package] = (name, drawable)
 
