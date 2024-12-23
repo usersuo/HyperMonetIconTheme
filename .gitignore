@@ -4,6 +4,7 @@ output/
 test/svg1
 .cache/
 *.pyc
+clean.py
 
 # 确保这些文件被追踪
 !cache_info.json
