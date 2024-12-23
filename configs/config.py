@@ -68,8 +68,8 @@ class IconConfig:
     #   深色模式下, fg_color为浅色, bg_color为深色
 
     # 深色主题 蓝色
-    # fg_color: str = "#d1e2fc" # 前景色
-    # bg_color: str = "#1c232b" # 背景色
+    fg_color: str = "#d1e2fc" # 前景色
+    bg_color: str = "#1c232b" # 背景色
 
     # fg_color: str = "#003a71"
     # bg_color: str = "#a1cafe"
@@ -95,8 +95,8 @@ class IconConfig:
     # bg_color: str  = "#eaeee0"
 
     # 浅色 白 加速构建
-    fg_color: str  = "#000000"
-    bg_color: str  = "#ffffff"
+    # fg_color: str  = "#000000"
+    # bg_color: str  = "#ffffff"
 
     # 图标大小和缩放比例
     # HyperOS图标（和背景）最大为432*432, 且系统会对图标本体前景）四周进行33.3%的裁切
