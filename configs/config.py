@@ -33,8 +33,8 @@ class CleanConfig:
 @dataclass
 class PerformanceConfig:
     # (全部样式生效) 线程配置, 同时处理max_workers个图标
-    # max_workers: int = min(128, (os.cpu_count() or 1) * 8)
-    max_workers: int = 1
+    max_workers: int = min(128, (os.cpu_count() or 1) * 8)
+    # max_workers: int = 1
 
     # (仅填充样式生效) 批处理大小, 一次读入batch_size个图标供max_workers处理
     batch_size_cv: int = 256  # OpenCV优化的批处理大小
