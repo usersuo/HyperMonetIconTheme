@@ -102,7 +102,7 @@ def build_filled(test_env: bool):
         str(ArtifactPathConfig.icon_mapper),
         str(LawniconsPathConfig.get_svg_dir(test_env)),
         str(ArtifactPathConfig.output_dir),
-        "#ffeaeb",
+        FillIconConfig(IconConfig.bg_color).fill_color,
         IconConfig.fg_color,
         IconConfig.bg_color,
         IconConfig.icon_size,
