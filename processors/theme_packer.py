@@ -8,7 +8,7 @@ from pathlib import Path
 class ThemePacker:
     """主题打包器
 
-    用于打包图标主题资源：
+    用于打包图标主题资源: 
     1. 打包图标资源
     2. 生成Magisk模块
     # 3. 生成MTZ主题包

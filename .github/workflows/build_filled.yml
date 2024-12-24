@@ -13,22 +13,22 @@ on:
   workflow_dispatch:
     inputs:
       fg_color:
-        description: '前景色FG_COLOR (线条颜色，例如 #003a71)'
+        description: '前景色FG_COLOR (线条颜色, 例如 #003a71)'
         required: true
         default: '#003a71'
         type: string
       bg_color:
-        description: '背景色BG_COLOR (背景颜色，例如 #a1cafe)'
+        description: '背景色BG_COLOR (背景颜色, 例如 #a1cafe)'
         required: true
         default: '#a1cafe'
         type: string
       fill_color:
-        description: '填充色FILL_COLOR (可选，留空则自动计算)'
+        description: '填充色FILL_COLOR (可选, 留空则自动计算)'
         required: false
         default: ''
         type: string
       theme_name:
-        description: '颜色名称 (用于打包文件名显示，可选，例如: light_blue。默认留空)'
+        description: '颜色名称 (用于打包文件名显示, 可选, 例如: light_blue。默认留空)'
         required: false
         default: ''
         type: string
@@ -36,6 +36,14 @@ on:
         description: '是否使用测试目录 (True/False)'
         required: false
         default: 'False'
+        type: choice
+        options:
+          - 'True'
+          - 'False'
+      enable_cache:
+        description: '是否启用填充区域缓存 (True/False)'
+        required: false
+        default: 'True'
         type: choice
         options:
           - 'True'
@@ -75,6 +83,7 @@ jobs:
           FILL_COLOR: ${{ inputs.fill_color }}
           THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
           TEST_ENV: ${{ github.event_name == 'workflow_dispatch' && inputs.test_env || 'False' }}
+          ENABLE_CACHE: ${{ github.event_name == 'workflow_dispatch' && inputs.enable_cache || 'True' }}
         run: |
           CMD="python build_filled.py -fg \"$FG_COLOR\" -bg \"$BG_COLOR\""
           if [ -n "$FILL_COLOR" ]; then
@@ -82,6 +91,9 @@ jobs:
           fi
           if [ "${TEST_ENV,,}" = "true" ]; then
             CMD="$CMD -test"
+          fi
+          if [ "${ENABLE_CACHE,,}" = "false" ]; then
+            CMD="$CMD -cache false"
           fi
           eval $CMD
 

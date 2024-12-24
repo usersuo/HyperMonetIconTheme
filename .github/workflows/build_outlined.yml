@@ -13,17 +13,17 @@ on:
   workflow_dispatch:
     inputs:
       fg_color:
-        description: '前景色FG_COLOR (图标颜色，例如 #d1e2fc)'
+        description: '前景色FG_COLOR (图标颜色, 例如 #d1e2fc)'
         required: true
         default: '#d1e2fc'
         type: string
       bg_color:
-        description: '背景色BG_COLOR (背景颜色，例如 #1c232b)'
+        description: '背景色BG_COLOR (背景颜色, 例如 #1c232b)'
         required: true
         default: '#1c232b'
         type: string
       theme_name:
-        description: '颜色名称，将包含在输出文件名中 (可选，例如: dark_blue)'
+        description: '颜色名称, 将包含在输出文件名中 (可选, 例如: dark_blue)'
         required: false
         default: ''
         type: string

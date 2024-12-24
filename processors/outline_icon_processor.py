@@ -15,7 +15,7 @@ from cairosvg import svg2png
 class OutlineIconProcessor:
     """基础图标处理器
 
-    用于生成Outlined风格图标：
+    用于生成Outlined风格图标: 
     1. 背景生成
     2. SVG转换为PNG
     3. 前景色替换
@@ -121,7 +121,7 @@ class OutlineIconProcessor:
             fg_color_rgb = ImageColor.getrgb(fg_color)
 
             for item in data:
-                # 保持透明度，仅改变颜色
+                # 保持透明度, 仅改变颜色
                 if item[3] != 0:  # 如果不完全透明
                     new_data.append((*fg_color_rgb, item[3]))
                 else:
@@ -250,7 +250,7 @@ class OutlineIconProcessor:
 
         total_icons = len(mapper)
         print(
-            f"  (3/4) OutlineIconProcessor.generate_icons: 找到 {total_icons} 个图标需要处理，当前并行线程数 {max_workers} ，大约需要 5 分钟"
+            f"  (3/4) OutlineIconProcessor.generate_icons: 找到 {total_icons} 个图标需要处理, 当前并行线程数 {max_workers} , 大约需要 5 分钟"
         )
 
         # 多线程处理
@@ -283,5 +283,5 @@ class OutlineIconProcessor:
                     )
 
         print(
-            f"\n  (4/4) OutlineIconProcessor.generate_icons: 图标处理完成，成功处理 {successful}/{total_icons}"
+            f"\n  (4/4) OutlineIconProcessor.generate_icons: 图标处理完成, 成功处理 {successful}/{total_icons}"
         )

@@ -42,7 +42,7 @@ class OutlinedShortcutProcessor:
 
         drawable_dir = Path(icons_template_dir) / "res/drawable-xxhdpi"
 
-        # 锁图标，使用volumelockr图标
+        # 锁图标, 使用volumelockr图标
         svg_path = Path(svg_dir) / "volumelockr.svg"
 
         drawable_dir.mkdir(parents=True, exist_ok=True)

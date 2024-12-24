@@ -23,23 +23,32 @@ from configs.config import (
 def parse_args():
     """解析命令行参数
 
-    支持的参数：
-        -fg: 前景色，例如 "#003a71"
-        -bg: 背景色，例如 "#a1cafe"
-        -fill: 填充色，可选，默认自动计算
-        -test: 是否使用测试目录，默认False
+    支持的参数:
+        -fg: 前景色, 例如 "#003a71"
+        -bg: 背景色, 例如 "#a1cafe"
+        -fill: 填充色, 可选, 留空自动计算
+        -test: 是否使用测试目录, 默认False
+        -cache: 是否启用填充区域预计算缓存, 加速构建。默认True
 
     Example:
-        使用test测试目录
-            python build_filled.py -fg "#003a71" -bg "#a1cafe" -fill "#e4f0fe" -test
-        使用Lawnicons生产目录
+        启用缓存, 指定填充颜色，使用生产目录:
+            python build_filled.py -fg "#003a71" -bg "#a1cafe" -fill "#003a71"
+        启用缓存, 不指定填充颜色, 使用生产目录:
             python build_filled.py -fg "#003a71" -bg "#a1cafe"
+        禁用缓存, 不指定填充颜色, 使用测试目录:
+            python build_filled.py -fg "#003a71" -bg "#a1cafe" -cache false -test
+        启用缓存, 不指定填充颜色, 使用测试目录:
+            python build_filled.py -fg "#003a71" -bg "#a1cafe" -test
+
     """
     parser = argparse.ArgumentParser(description="构建Fill风格图标")
     parser.add_argument("-fg", type=str, help="前景色 (例如: #000000)")
     parser.add_argument("-bg", type=str, help="背景色 (例如: #ffffff)")
-    parser.add_argument("-fill", type=str, help="填充色，可选，默认自动计算")
+    parser.add_argument("-fill", type=str, help="填充色, 可选, 留空自动计算")
     parser.add_argument("-test", action="store_true", help="使用测试目录")
+    parser.add_argument(
+        "-cache", type=str, default="true", help="是否启用填充区域预计算缓存 (true/false)"
+    )
     return parser.parse_args()
 
 
@@ -144,7 +153,7 @@ def build_filled(test_env: bool):
 
     # 运行后清理
     print("\n(6/6) Cleaner: 运行后清理")
-    # Cleaner.cleanup(CleanConfig.clean_up)
+    Cleaner.cleanup(CleanConfig.clean_up)
 
     print("\n处理完成, 工件已保存至当前目录")
     print("刷入后请重启设备")
@@ -161,7 +170,6 @@ def build_filled(test_env: bool):
 
 if __name__ == "__main__":
     args = parse_args()
-    # 优先使用命令行参数，其次使用环境变量
     if args.fg:
         IconConfig.fg_color = args.fg
     elif os.getenv("FG_COLOR"):
@@ -175,4 +183,13 @@ if __name__ == "__main__":
     if args.fill:
         os.environ["FILL_COLOR"] = args.fill
 
-    build_filled(args.test or os.getenv("TEST_ENV", "False").lower() == "true")
+    # 是否使用缓存
+    PerformanceConfig.enable_fill_mask_cache = (
+        args.cache.lower() == "true"
+        if args.cache
+        else os.getenv("ENABLE_CACHE", "true").lower() == "true"
+    )
+
+    # 是否使用测试目录
+    test_env = args.test or os.getenv("TEST_ENV", "False").lower() == "true"
+    build_filled(test_env=test_env)

@@ -33,7 +33,7 @@ class CleanConfig:
 @dataclass
 class PerformanceConfig:
     # (全部样式生效) 线程配置, 同时处理max_workers个图标
-    max_workers: int = min(128, (os.cpu_count() or 1) * 8)
+    max_workers: int = min(128, (os.cpu_count() or 1) * 4)
     # max_workers: int = 1
 
     # (仅填充样式生效) 批处理大小, 一次读入batch_size个图标供max_workers处理
@@ -69,15 +69,18 @@ class IconConfig:
     #   浅色模式下, fg_color为深色, bg_color为浅色
     #   深色模式下, fg_color为浅色, bg_color为深色
 
-    fg_color: str = "#710500"  # 前景色
-    bg_color: str = "#f9b3a7"  # 背景色
-
-    # 深色主题 蓝色
-    # fg_color: str = "#d1e2fc" # 前景色
-    # bg_color: str = "#1c232b" # 背景色
+    # Test
+    # fg_color: str = "#710500"
+    # bg_color: str = "#f9b3a7"
+    # fill_color: str = "#fde8e9"
 
     # fg_color: str = "#003a71"
     # bg_color: str = "#a1cafe"
+    # fill_color: str = "#e4f0ff"
+
+    # 深色主题 蓝色
+    fg_color: str = "#d1e2fc"  # 前景色
+    bg_color: str = "#1c232b"  # 背景色
 
     # 浅色主题 蓝色
     # fg_color: str  = "#011c31"
@@ -204,18 +207,18 @@ class ArtifactPathConfig:
 
     # 输出文件名式
     target_mtz_pattern_filled: str = str(
-        current_dir / f"mtz_HyperMonetIcon_filled_{theme_suffix}_{timestamp}.mtz"
+        current_dir / f"mtz_HyperMonetIcon_filled{theme_suffix}_{timestamp}.mtz"
     )
 
     target_mtz_pattern_outlined: str = str(
-        current_dir / f"mtz_HyperMonetIcon_outlined_{theme_suffix}_{timestamp}.mtz"
+        current_dir / f"mtz_HyperMonetIcon_outlined{theme_suffix}_{timestamp}.mtz"
     )
 
     target_magisk_pattern_filled: str = str(
-        current_dir / f"magisk_HyperMonetIcon_filled_{theme_suffix}_{timestamp}.zip"
+        current_dir / f"magisk_HyperMonetIcon_filled{theme_suffix}_{timestamp}.zip"
     )
     target_magisk_pattern_outlined: str = str(
-        current_dir / f"magisk_HyperMonetIcon_outlined_{theme_suffix}_{timestamp}.zip"
+        current_dir / f"magisk_HyperMonetIcon_outlined{theme_suffix}_{timestamp}.zip"
     )
 
 
