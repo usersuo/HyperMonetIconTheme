@@ -7,7 +7,7 @@ from pathlib import Path
 class MappingProcessor:
     """图标映射处理器
 
-    用于处理图标映射关系：
+    用于处理图标映射关系: 
     1. 解析appfilter.xml
     2.
     2. 合并icon_mapper_alt自定义映射
@@ -21,7 +21,7 @@ class MappingProcessor:
         Args:
             component: ComponentInfo字符串: "ComponentInfo{package/activity}"
         Returns:
-            str: 包名，失败返回空字符串
+            str: 包名, 失败返回空字符串
         Examples:
             parse_component_info("ComponentInfo{com.android.vending/activity}")
                 Returns "com.android.vending"

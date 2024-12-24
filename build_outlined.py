@@ -21,16 +21,16 @@ from configs.config import (
 def parse_args():
     """解析命令行参数
     
-    支持的参数：
-        -fg: 前景色，例如 "#003a71"
-        -bg: 背景色，例如 "#a1cafe"
-        -test: 是否使用测试目录，默认False
+    支持的参数: 
+        -fg: 前景色, 例如 "#003a71"
+        -bg: 背景色, 例如 "#a1cafe"
+        -test: 是否使用测试目录, 默认False
     
     Example:
-        使用test测试目录
-            python build_outlined.py -fg "#003a71" -bg "#a1cafe" -test
-        使用Lawnicons生产目录
+        使用生产目录:
             python build_outlined.py -fg "#003a71" -bg "#a1cafe"
+        使用测试目录:
+            python build_outlined.py -fg "#003a71" -bg "#a1cafe" -test
     """
     parser = argparse.ArgumentParser(description='构建Outlined风格图标')
     parser.add_argument('-fg', type=str, help='前景色 (例如: "#003a71")')
@@ -147,7 +147,7 @@ def build_outlined(test_env: bool):
 if __name__ == "__main__":
     args = parse_args()
     
-    # 优先使用命令行参数，其次使用环境变量
+    # 优先使用命令行参数, 其次使用环境变量
     if args.fg:
         IconConfig.fg_color = args.fg
     elif os.getenv("FG_COLOR"):
@@ -158,4 +158,6 @@ if __name__ == "__main__":
     elif os.getenv("BG_COLOR"):
         IconConfig.bg_color = os.getenv("BG_COLOR")
         
-    build_outlined(args.test or os.getenv("TEST_ENV", "False").lower() == "true")
+    # 是否使用测试目录
+    test_env = args.test or os.getenv("TEST_ENV", "False").lower() == "true"
+    build_outlined(test_env=test_env)
