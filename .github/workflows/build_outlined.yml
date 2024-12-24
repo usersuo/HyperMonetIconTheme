@@ -27,6 +27,14 @@ on:
         required: false
         default: ''
         type: string
+      test_env:
+        description: '是否使用测试目录 (True/False)'
+        required: false
+        default: 'False'
+        type: choice
+        options:
+          - 'True'
+          - 'False'
 
 jobs:
   build:
@@ -56,13 +64,12 @@ jobs:
 
       - name: Build with Python
         env:
-          FG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.fg_color || '#d1e2fc' }}
-          BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#1c232b' }}
+          FG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.fg_color || '#003a71' }}
+          BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#a1cafe' }}
           THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
+          TEST_ENV: ${{ github.event_name == 'workflow_dispatch' && inputs.test_env || 'False' }}
         run: |
-          sed -i "s/^    fg_color = \".*\"/    fg_color = \"$FG_COLOR\"/" configs/config.py
-          sed -i "s/^    bg_color = \".*\"/    bg_color = \"$BG_COLOR\"/" configs/config.py
-          python build_outlined.py
+          python build_outlined.py -fg "$FG_COLOR" -bg "$BG_COLOR" ${TEST_ENV,,} == 'true' && echo "-test" || echo ""
 
       - name: Prepare artifact
         if: success()

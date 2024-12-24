@@ -23,15 +23,23 @@ on:
         default: '#a1cafe'
         type: string
       fill_color:
-        description: '填充色FILL_COLOR (可选，留空则根据上述颜色自动推断)'
+        description: '填充色FILL_COLOR (可选，留空则自动计算)'
         required: false
         default: ''
         type: string
       theme_name:
-        description: '颜色名称 (可选，例如: light_blue，用于打包文件名显示)'
+        description: '颜色名称 (用于打包文件名显示，可选，例如: light_blue。默认留空)'
         required: false
         default: ''
         type: string
+      test_env:
+        description: '是否使用测试目录 (True/False)'
+        required: false
+        default: 'False'
+        type: choice
+        options:
+          - 'True'
+          - 'False'
 
 jobs:
   build:
@@ -66,10 +74,9 @@ jobs:
           BG_COLOR: ${{ github.event_name == 'workflow_dispatch' && inputs.bg_color || '#a1cafe' }}
           FILL_COLOR: ${{ inputs.fill_color }}
           THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
+          TEST_ENV: ${{ github.event_name == 'workflow_dispatch' && inputs.test_env || 'False' }}
         run: |
-          sed -i "s/^    fg_color: str = \".*\"/    fg_color: str = \"$FG_COLOR\"/" configs/config.py
-          sed -i "s/^    bg_color: str = \".*\"/    bg_color: str = \"$BG_COLOR\"/" configs/config.py
-          python build_filled.py
+          python build_filled.py -fg "$FG_COLOR" -bg "$BG_COLOR" ${FILL_COLOR:+-fill "$FILL_COLOR"} ${TEST_ENV,,} == 'true' && echo "-test" || echo ""
 
       - name: Prepare artifact
         if: success()

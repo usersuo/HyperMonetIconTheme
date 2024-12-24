@@ -1,12 +1,13 @@
 lawnicons-develop/
 templates/icons_template/res/drawable-xxhdpi/*
 output/
+backup/
 test/svg1
 .cache/
 *.pyc
 clean.py
+_sketch.md
 
-# 确保这些文件被追踪
 !cache_info.json
 !cached_masks.tar.lz4
 
@@ -35,7 +36,7 @@ venv/
 ENV/
 env/
 .env/
-
+.venv/
 .idea/
 .vscode/
 *.swp

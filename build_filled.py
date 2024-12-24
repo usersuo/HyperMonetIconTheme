@@ -1,4 +1,6 @@
 import time
+import os
+import argparse
 
 from processors.cleaner import Cleaner
 from processors.theme_packer import ThemePacker
@@ -16,6 +18,29 @@ from configs.config import (
     ArtifactPathConfig,
     LawniconsPathConfig,
 )
+
+
+def parse_args():
+    """解析命令行参数
+
+    支持的参数：
+        -fg: 前景色，例如 "#003a71"
+        -bg: 背景色，例如 "#a1cafe"
+        -fill: 填充色，可选，默认自动计算
+        -test: 是否使用测试目录，默认False
+
+    Example:
+        使用test测试目录
+            python build_filled.py -fg "#003a71" -bg "#a1cafe" -fill "#e4f0fe" -test
+        使用Lawnicons生产目录
+            python build_filled.py -fg "#003a71" -bg "#a1cafe"
+    """
+    parser = argparse.ArgumentParser(description="构建Fill风格图标")
+    parser.add_argument("-fg", type=str, help="前景色 (例如: #000000)")
+    parser.add_argument("-bg", type=str, help="背景色 (例如: #ffffff)")
+    parser.add_argument("-fill", type=str, help="填充色，可选，默认自动计算")
+    parser.add_argument("-test", action="store_true", help="使用测试目录")
+    return parser.parse_args()
 
 
 def build_filled(test_env: bool):
@@ -77,7 +102,7 @@ def build_filled(test_env: bool):
         str(ArtifactPathConfig.icon_mapper),
         str(LawniconsPathConfig.get_svg_dir(test_env)),
         str(ArtifactPathConfig.output_dir),
-        FillIconConfig(IconConfig.bg_color).fill_color,
+        "#ffeaeb",
         IconConfig.fg_color,
         IconConfig.bg_color,
         IconConfig.icon_size,
@@ -119,7 +144,7 @@ def build_filled(test_env: bool):
 
     # 运行后清理
     print("\n(6/6) Cleaner: 运行后清理")
-    Cleaner.cleanup(CleanConfig.clean_up)
+    # Cleaner.cleanup(CleanConfig.clean_up)
 
     print("\n处理完成, 工件已保存至当前目录")
     print("刷入后请重启设备")
@@ -135,4 +160,19 @@ def build_filled(test_env: bool):
 
 
 if __name__ == "__main__":
-    build_filled(test_env=False)  # 是否使用测试目录
+    args = parse_args()
+    # 优先使用命令行参数，其次使用环境变量
+    if args.fg:
+        IconConfig.fg_color = args.fg
+    elif os.getenv("FG_COLOR"):
+        IconConfig.fg_color = os.getenv("FG_COLOR")
+
+    if args.bg:
+        IconConfig.bg_color = args.bg
+    elif os.getenv("BG_COLOR"):
+        IconConfig.bg_color = os.getenv("BG_COLOR")
+
+    if args.fill:
+        os.environ["FILL_COLOR"] = args.fill
+
+    build_filled(args.test or os.getenv("TEST_ENV", "False").lower() == "true")
