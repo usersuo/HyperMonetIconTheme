@@ -15,6 +15,7 @@ class CleanConfig:
     # 清理目录
     clean_up: list = [
         # *list(current_dir.glob("magisk_HyperMonetIcon*")),
+        # *list(current_dir.glob("mtz_HyperMonetIcon*")),
         current_dir / ".cache",
         current_dir / "output",
         current_dir / "configs" / "__pycache__",
@@ -32,7 +33,8 @@ class CleanConfig:
 @dataclass
 class PerformanceConfig:
     # (全部样式生效) 线程配置, 同时处理max_workers个图标
-    max_workers: int = min(128, (os.cpu_count() or 1) * 8)
+    # max_workers: int = min(128, (os.cpu_count() or 1) * 8)
+    max_workers: int = 1
 
     # (仅填充样式生效) 批处理大小, 一次读入batch_size个图标供max_workers处理
     batch_size_cv: int = 256  # OpenCV优化的批处理大小
@@ -67,9 +69,12 @@ class IconConfig:
     #   浅色模式下, fg_color为深色, bg_color为浅色
     #   深色模式下, fg_color为浅色, bg_color为深色
 
+    fg_color: str = "#710500"  # 前景色
+    bg_color: str = "#f9b3a7"  # 背景色
+
     # 深色主题 蓝色
-    fg_color: str = "#d1e2fc" # 前景色
-    bg_color: str = "#1c232b" # 背景色
+    # fg_color: str = "#d1e2fc" # 前景色
+    # bg_color: str = "#1c232b" # 背景色
 
     # fg_color: str = "#003a71"
     # bg_color: str = "#a1cafe"
