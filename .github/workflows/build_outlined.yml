@@ -69,7 +69,11 @@ jobs:
           THEME_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.theme_name || '' }}
           TEST_ENV: ${{ github.event_name == 'workflow_dispatch' && inputs.test_env || 'False' }}
         run: |
-          python build_outlined.py -fg "$FG_COLOR" -bg "$BG_COLOR" ${TEST_ENV,,} == 'true' && echo "-test" || echo ""
+          CMD="python build_outlined.py -fg \"$FG_COLOR\" -bg \"$BG_COLOR\""
+          if [ "${TEST_ENV,,}" = "true" ]; then
+            CMD="$CMD -test"
+          fi
+          eval $CMD
 
       - name: Prepare artifact
         if: success()
