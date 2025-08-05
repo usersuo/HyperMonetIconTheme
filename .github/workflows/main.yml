@@ -1,2 +1,6 @@
-"#2F6E55"
-"#C8FAD9"
+on:
+  push:
+    branches:
+    - main
+    - release/*
+FG_COLOR = "#2F6E55"
